@@ -23,6 +23,7 @@ def get_weather(WEATHER_API_KEY,locationname):
         return "天氣查詢失敗！"
 def get_country_weather(WEATHER_API_KEY,locationname):
     WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
+    locationname = locationname.replace("台","臺",True) if "台" in locationname else locationname
     country = ["宜蘭縣", "花蓮縣", "臺東縣", "澎湖縣", "金門縣", "連江縣", "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市", "基隆市", "新竹縣", "新竹市", "苗栗縣", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "嘉義市", "屏東縣"]
     LOCATION_NAME = locationname[1:4]
     res = requests.get(f"{WEATHER_API_URL}?Authorization={WEATHER_API_KEY}&locationName={LOCATION_NAME}")
