@@ -49,7 +49,13 @@ def handle_message(event):
             TextSendMessage(text="我回來了!"))
     else:
         if quiet_mode == False:
-            line_bot_api.reply_message(
+            if message == "卓子揚是帥哥":
+                retext = "那是肯定的"
+                line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=retext))
+            else:
+                line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=message))
 
