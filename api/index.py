@@ -9,7 +9,7 @@ line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
 app = Flask(__name__)
-
+quiet_mode = False
 # domain root
 @app.route('/')
 def home():
@@ -33,10 +33,26 @@ def callback():
 
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 回傳相同的訊息給使用者
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
+    global quiet_mode
+    message = event.message.text
+
+    # 如果使用者輸入 "安靜"，則設定 quiet_mode 為 True，否則回傳相同訊息
+    if message == "!安靜":
+        quiet_mode = True
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="好的，我會安靜"))
+    elif message == "!回來":
+        quiet_mode = False
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="我回來了!"))
+    else:
+        if quiet_mode == False:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=message))
+
 
 if __name__ == "__main__":
     app.run()
