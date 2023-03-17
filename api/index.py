@@ -66,7 +66,8 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=retext))
             elif message == "!test":
-                reply_text = tt.test()
+                # reply_text = tt.test()
+                reply_text = 'hello'
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             elif message[0] == "!" and "天氣" == message[4:]:
                 if "區天氣" == message[3:]:
