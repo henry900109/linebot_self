@@ -3,6 +3,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import utils.weather as uw
+import test.test as tt
 import requests
 import os
 
@@ -47,7 +48,7 @@ def handle_message(event):
     message = event.message.text
 
     # 如果使用者輸入 "安靜"，則設定 quiet_mode 為 True，否則回傳相同訊息
-    if message == "!安靜":
+    if message == "!安靜"or message == "!quite":
         quiet_mode = True
         line_bot_api.reply_message(
             event.reply_token,
@@ -64,6 +65,9 @@ def handle_message(event):
                 line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=retext))
+            elif message == "!test":
+                reply_text = tt.test()
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             elif message[0] == "!" and "天氣" == message[4:]:
                 if "區天氣" == message[3:]:
                     LOCATION_NAME = message[1:4]
