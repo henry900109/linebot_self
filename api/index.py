@@ -8,8 +8,8 @@ import os
 
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+apiKey = os.getenv("weather_api")
 
-WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
 WEATHER_API_KEY = "CWB-B64CD8B7-02BF-441E-B253-C654F478E513"
 # os.getenv("WEATHER_API_KEY")
 
@@ -65,25 +65,13 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=retext))
             elif message[0] == "!" and "天氣" == message[4:]:
-        # 用氣象局 API 查詢板橋區的天氣資訊
-                country = ["宜蘭縣", "花蓮縣", "臺東縣", "澎湖縣", "金門縣", "連江縣", "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市", "基隆市", "新竹縣", "新竹市", "苗栗縣", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "嘉義市", "屏東縣"]
-                LOCATION_NAME = message[1:4]
-                res = requests.get(f"{WEATHER_API_URL}?Authorization={WEATHER_API_KEY}&locationName={LOCATION_NAME}")
-                if res.status_code == 200:
-                    data = res.json()["records"]["location"][0]["weatherElement"]
-                    reply_text = f"{LOCATION_NAME}天氣狀況：\n\n"
-                    for i in range(3):
-                        time = data[0]["time"][i]["startTime"][5:10].replace("-", "/")
-                        weather = data[0]["time"][i]["parameter"]["parameterName"]
-                        temp = data[1]["time"][i]["parameter"]["parameterName"]
-                        reply_text += f"{time}:{weather}，氣溫 {temp}℃\n"
+                if "區天氣" == message[3:]:
+                    LOCATION_NAME = message[1:4]
+                    reply_text = uw.get_weather(WEATHER_API_KEY = WEATHER_API_KEY,locationname = LOCATION_NAME)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                 else:
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="天氣查詢失敗！"))
-            elif message[0] == "!" and "區天氣" == message[3:]:
-                LOCATION_NAME = message[1:4]
-                reply_text = uw.get_weather(apiKey = "CWB-B64CD8B7-02BF-441E-B253-C654F478E513",locationname = LOCATION_NAME)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                    reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             else:
                 line_bot_api.reply_message(
                 event.reply_token,
