@@ -14,7 +14,7 @@ app = Flask(__name__)
 # domain root
 @app.route('/')
 def home():
-    return 'Hello'
+    return line_bot_api,line_handler
 
 @app.route("/webhook", methods=['POST'])
 def callback():
