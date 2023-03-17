@@ -16,7 +16,7 @@ app = Flask(__name__)
 def home():
     return 'Hello'
 
-@app.route('/webhook', methods=['GET','POST'])
+@app.route("/webhook", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
@@ -29,6 +29,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
+
 
 
 @line_handler.add(MessageEvent, message=TextMessage)
