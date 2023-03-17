@@ -11,7 +11,7 @@ line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
 WEATHER_API_KEY = "CWB-B64CD8B7-02BF-441E-B253-C654F478E513"
 # os.getenv("WEATHER_API_KEY")
-LOCATION_NAME = "板橋區"
+LOCATION_NAME = "臺北市"
 
 
 app = Flask(__name__)
