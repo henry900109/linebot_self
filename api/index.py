@@ -14,7 +14,7 @@ app = Flask(__name__)
 # domain root
 @app.route('/')
 def home():
-    return str(line_bot_api)
+    return os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
 
 @app.route("/webhook", methods=['POST'])
 def callback():
