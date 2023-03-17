@@ -11,7 +11,7 @@ line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
 WEATHER_API_KEY = "CWB-B64CD8B7-02BF-441E-B253-C654F478E513"
 # os.getenv("WEATHER_API_KEY")
-LOCATION_NAME = "臺北市"
+
 
 
 app = Flask(__name__)
@@ -63,8 +63,9 @@ def handle_message(event):
                 line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=retext))
-            elif message == "天氣":
+            elif message[0] == "!" and "市天氣" == message[3:]:
         # 用氣象局 API 查詢板橋區的天氣資訊
+                LOCATION_NAME = message[1:4]
                 res = requests.get(f"{WEATHER_API_URL}?Authorization={WEATHER_API_KEY}&locationName={LOCATION_NAME}")
                 if res.status_code == 200:
                     data = res.json()["records"]["location"][0]["weatherElement"]
