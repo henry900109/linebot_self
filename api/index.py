@@ -51,7 +51,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="好的，我會安靜"))
-    elif message == "!回來" or "!hello":
+    elif message == "!回來" or message == "!hello":
         quiet_mode = False
         line_bot_api.reply_message(
             event.reply_token,
