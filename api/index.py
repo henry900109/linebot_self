@@ -2,6 +2,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
+import utils.weather as uw
 import requests
 import os
 
@@ -79,6 +80,10 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                 else:
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text="天氣查詢失敗！"))
+            elif message[0] == "!" and "區天氣" == message[3:]:
+                LOCATION_NAME = message[1:4]
+                reply_text = uw.get_weather(apiKey = "CWB-B64CD8B7-02BF-441E-B253-C654F478E513",locationname = LOCATION_NAME)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             else:
                 line_bot_api.reply_message(
                 event.reply_token,
