@@ -14,7 +14,7 @@ app = Flask(__name__)
 # domain root
 @app.route('/')
 def home():
-    return 'Hello, World!'
+    return 'Hello'
 
 @app.route('/webhook', methods=['GET','POST'])
 def callback():
