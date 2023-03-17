@@ -2,11 +2,17 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
-
+import requests
 import os
 
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+
+WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
+WEATHER_API_KEY = "CWB-B64CD8B7-02BF-441E-B253-C654F478E513"
+# os.getenv("WEATHER_API_KEY")
+LOCATION_NAME = "板橋區"
+
 
 app = Flask(__name__)
 quiet_mode = False
@@ -31,6 +37,9 @@ def callback():
 
 
 
+
+
+
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global quiet_mode
@@ -49,11 +58,25 @@ def handle_message(event):
             TextSendMessage(text="我回來了!"))
     else:
         if quiet_mode == False:
-            if message == "卓子揚是帥哥":
+            if message == "卓子揚是帥哥嗎?":
                 retext = "那是肯定的"
                 line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=retext))
+            elif message == "天氣":
+        # 用氣象局 API 查詢板橋區的天氣資訊
+                res = requests.get(f"{WEATHER_API_URL}?Authorization={WEATHER_API_KEY}&locationName={LOCATION_NAME}")
+                if res.status_code == 200:
+                    data = res.json()["records"]["location"][0]["weatherElement"]
+                    reply_text = f"{LOCATION_NAME}天氣狀況：\n\n"
+                    for i in range(3):
+                        time = data[0]["time"][i]["startTime"][5:10].replace("-", "/")
+                        weather = data[0]["time"][i]["parameter"]["parameterName"]
+                        temp = data[1]["time"][i]["parameter"]["parameterName"]
+                        reply_text += f"{time}:{weather}，氣溫 {temp}℃\n"
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                else:
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text="天氣查詢失敗！"))
             else:
                 line_bot_api.reply_message(
                 event.reply_token,
