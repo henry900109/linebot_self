@@ -15,7 +15,7 @@ LOCATION_NAME = "臺北市"
 
 
 app = Flask(__name__)
-quiet_mode = False
+quiet_mode = True
 # domain root
 @app.route('/')
 def home():
@@ -51,7 +51,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="好的，我會安靜"))
-    elif message == "!回來":
+    elif message == "!回來" or "!hello":
         quiet_mode = False
         line_bot_api.reply_message(
             event.reply_token,
