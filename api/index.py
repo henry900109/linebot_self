@@ -71,8 +71,15 @@ def handle_message(event):
                 TextSendMessage(text=retext))
             elif message == "!test":
                 # reply_text = tt.test()
-                profile = line_bot_api.get_profile(userid)
-                reply_text = tt.profile(profile)
+
+                try:
+                    groupid = event.source.user_id
+                    profile = line_bot_api.get_group_summary(groupid)
+                    members = line_bot_api.get_group_member_ids(groupid)
+                    reply_text = tt.profile(profile)
+                except:
+                    profile = line_bot_api.get_profile(userid)
+                    reply_text = tt.profile(profile)
                 # reply_text = profile.display_name
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             elif message[0] == "!" and "天氣" == message[4:]:
