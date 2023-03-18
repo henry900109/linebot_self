@@ -14,7 +14,6 @@ import os
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 WEATHER_API_KEY = os.getenv("weather_api")
-# WEATHER_API_KEY = "CWB-B64CD8B7-02BF-441E-B253-C654F478E513"
 
 
 
