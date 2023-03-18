@@ -1,5 +1,6 @@
 import requests
 import json
+from datetime import datetime,timedelta
 
 def get_weather(WEATHER_API_KEY,locationname):
     # 請在下方填入您的 API Key
@@ -22,6 +23,53 @@ def get_weather(WEATHER_API_KEY,locationname):
         return reply_text
     else:
         return "天氣查詢失敗！"
+    
+
+def weather(WEATHER_API_KEY,user):
+
+    now = datetime.now().date()
+    weather_apikey = WEATHER_API_KEY
+    weather_apikey = 'CWB-1C2DC824-FEDC-47BD-9693-694422ECCCC3'
+    dataid = 'F-D0047-069' #新北市
+    element_name = "T,Wx,PoP6h,AT"
+
+    url = f'https://opendata.cwb.gov.tw/api/v1/rest/datastore/{dataid}?Authorization={weather_apikey}&locationName={user[2:5]}&elementName={element_name}'
+    response = requests.get(url)
+    data = response.json()
+
+    date_code = {'今天':now,'明天':now + timedelta(days=1)}
+    
+    extra = data['records']['locations'][0]['location'][0]['weatherElement']
+
+    relpy_text = user[2:] +"\n"
+
+    for j in range(len(extra[0]['time'])):
+        # 讀取資料第一筆時間
+        moment = datetime.strptime(extra[0]['time'][j]['startTime'], '%Y-%m-%d %H:%M:%S')
+        
+        # 判斷所需的日期天氣資料
+
+        if str(date_code[user[:2]]) in str(moment):
+
+            relpy_text+= str(moment) 
+            relpy_text+='\n'
+            for i in range(len(extra)-1):
+                description = extra[i]['description']
+                try:
+                    wx = extra[i]['time'][j]['elementValue'][0]['value']
+                except IndexError:
+                    wx = '尚未預測'
+                relpy_text+=description+":"+ wx 
+                relpy_text+='\n'
+
+            try:
+                relpy_text+=extra[-1]['description']+":"+extra[-1]['time'][j//2]['elementValue'][0]['value']+"%"
+                relpy_text+='\n'
+                relpy_text+='\n'
+            except IndexError:
+                relpy_text+='N\A'
+                
+    return relpy_text
     
 def get_country_weather(WEATHER_API_KEY,locationname):
     WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"

@@ -136,18 +136,19 @@ def handle_message(event):
 
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
-                    elif message[0] == "!" and "天氣" == message[4:]:
-                        
+                    elif message[0] == "!" and "天氣" == message[6:]:
+                        #!明天板橋區天氣
                         #新北市XX區天氣
-                        if "區天氣" == message[3:]:
-                            LOCATION_NAME = message[1:4]
-                            reply_text = uw.get_weather(WEATHER_API_KEY = WEATHER_API_KEY,locationname = LOCATION_NAME)
+                        if "區天氣" == message[5:]:
+                            LOCATION_NAME = message[1:]
+                            reply_text = uw.weather(WEATHER_API_KEY = WEATHER_API_KEY,locationname = LOCATION_NAME)
                             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                         #全臺各縣市天氣
-                        else:
-                            reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
-                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                    elif message[0] == "!" and "天氣" == message[4:]:
+                        
+                        reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                     else:
                         if gamemode == True:

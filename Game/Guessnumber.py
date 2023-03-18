@@ -5,6 +5,7 @@ def Guessnumber(user_input,range_min,range_max,answer):
         user_number = int(user_input)
 
         if user_number < range_min or user_number > range_max:
+            gamemode = False
             return "請輸入範圍內的數字！"
         
         if user_number == answer:
