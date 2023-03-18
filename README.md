@@ -15,6 +15,7 @@
 `!quite` | 靜音模式
 `!XX市(縣)天氣` |提供該縣市的天氣預報
 `!OO區天氣` | 提供該區的天氣預報
+`!whoami` | 可確認自己身分
 
 ### 查詢指令
 指令 | 說明
@@ -29,3 +30,4 @@
 `LINE_CHANNEL_ACCESS_TOKEN` | LINE 的 [channel access token]
 `LINE_CHANNEL_SECRET` | LINE 的 [channel secret]
 `weather_api` | 中央氣象局的 的 [API]
+`line_notify_token` | LINE 的 [notify_API]
