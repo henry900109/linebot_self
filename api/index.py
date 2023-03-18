@@ -141,7 +141,7 @@ def handle_message(event):
                         #新北市XX區天氣
                         if "區天氣" == message[5:]:
                             LOCATION_NAME = message[1:]
-                            reply_text = uw.weather(WEATHER_API_KEY = WEATHER_API_KEY,locationname = LOCATION_NAME)
+                            reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
                             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                         #全臺各縣市天氣
