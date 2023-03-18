@@ -6,6 +6,7 @@ import utils.weather as uw
 import utils.introduce as ui
 import utils.polite as up
 import utils.proflie as uf
+import root.polite as rp
 import test.test as tt
 import requests
 import os
@@ -61,9 +62,13 @@ def handle_message(event):
 
     if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
         root_mode = True
+        reply_text = rp.Goodbye()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
     elif message == "!!hello" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
         root_mode = False
+        reply_text = rp.hello()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
     else:
 
@@ -94,8 +99,8 @@ def handle_message(event):
 
                 if quiet_mode == False :
 
-                    if message == "卓子揚是帥哥嗎?":
-                        retext = "那是肯定的"
+                    if "卓子揚" in message:
+                        retext = "他是帥哥!!"
                         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
 
                     elif message == "!test":# reply_text = tt.test() #測試用
