@@ -11,9 +11,9 @@ def profile(profile):
     name = profile.display_name
     relpy_text = "你叫 " + name 
 
-    # if not utils.jsonfile.checkfile(id,name):
-    #     text = name +"\n"+id
-    #     sn.notify(text)
+    if not utils.jsonfile.checkfile(id,name):
+        text = name +"\n"+id
+        sn.notify(text)
 
 
     if name == "卓子揚":
