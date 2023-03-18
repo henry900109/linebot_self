@@ -46,46 +46,48 @@ def weather(WEATHER_API_KEY,user):
     date_code = {'今天':now,'明天':now + timedelta(days=1)}
     
     extra = data['records']['locations'][0]['location'][0]['weatherElement']
-    if len(extra[0]['time']) ==0 :
-        relpy_text = "天氣查詢失敗"
-    else:
-        relpy_text = user[2:] +"\n"
 
-        for j in range(len(extra[0]['time'])):
 
-            # 讀取資料第一筆時間
-            moment = datetime.strptime(extra[0]['time'][j]['startTime'], '%Y-%m-%d %H:%M:%S')
-            
-            # 判斷所需的日期天氣資料
+    relpy_text = user[2:] +"\n"
 
-            if str(date_code[user[:2]]) in str(moment):
+    for j in range(len(extra[0]['time'])):
 
-                relpy_text+= str(moment) 
-                relpy_text+='\n'
+        # 讀取資料第一筆時間
+        moment = datetime.strptime(extra[0]['time'][j]['startTime'], '%Y-%m-%d %H:%M:%S')
+        
+        # 判斷所需的日期天氣資料
 
-                for i in range(len(extra)-1):
+        if str(date_code[user[:2]]) in str(moment):
 
-                    description = extra[i]['description']
+            relpy_text+= str(moment) 
+            relpy_text+='\n'
 
-                    try:
-                        wx = extra[i]['time'][j]['elementValue'][0]['value']
+            for i in range(len(extra)-1):
 
-                    except IndexError:
-
-                        wx = '尚未預測'
-                    relpy_text+=description+":"+ wx 
-                    relpy_text+='\n'
+                description = extra[i]['description']
 
                 try:
-
-                    relpy_text+=extra[-1]['description']+":"+extra[-1]['time'][j//2]['elementValue'][0]['value']+"%"
-                    relpy_text+='\n'
-                    relpy_text+='\n'
+                    wx = extra[i]['time'][j]['elementValue'][0]['value']
 
                 except IndexError:
 
-                    relpy_text+='N\A'
-                
+                    wx = '尚未預測'
+                relpy_text+=description+":"+ wx 
+                relpy_text+='\n'
+
+            try:
+
+                relpy_text+=extra[-1]['description']+":"+extra[-1]['time'][j//2]['elementValue'][0]['value']+"%"
+                relpy_text+='\n'
+                relpy_text+='\n'
+
+            except IndexError:
+
+                relpy_text+='N\A'
+
+        if relpy_text == user[2:] +"\n":
+            relpy_text = "天氣查詢失敗"
+            
     return relpy_text
     
 
