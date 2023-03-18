@@ -63,7 +63,7 @@ def handle_message(event):
         reply_text = ui.interduce()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
     else:
-        if quiet_mode == False:
+        if quiet_mode == False and tt.profile(line_bot_api.get_profile(userid))!="卓子揚":
             if message == "卓子揚是帥哥嗎?":
                 retext = "那是肯定的"
                 line_bot_api.reply_message(
@@ -72,14 +72,9 @@ def handle_message(event):
             elif message == "!test":
                 # reply_text = tt.test()
 
-                # try:
-                groupid = event.source.group_id
-                # profile = line_bot_api.get_group_summary(groupid)
-                members = line_bot_api.get_group_member_ids(groupid)
-                reply_text = members
-                # except:
-                #     profile = line_bot_api.get_profile(userid)
-                #     reply_text = tt.profile(profile)
+
+                profile = line_bot_api.get_profile(userid)
+                reply_text = tt.profile(profile)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             elif message[0] == "!" and "天氣" == message[4:]:
                 if "區天氣" == message[3:]:
