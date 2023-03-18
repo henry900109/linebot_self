@@ -18,8 +18,7 @@ def profile(profile):
 
     if name == "卓子揚":
 
-        # return "你叫 " + name +",是個帥哥!"
-        return utils.jsonfile.checkfile(id,name)
+        return "你叫 " + name +",是個帥哥!"
     
     else:
 
