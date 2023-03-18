@@ -73,7 +73,7 @@ def handle_message(event):
                 # reply_text = tt.test()
 
                 try:
-                    groupid = event.source.user_id
+                    groupid = event.source.group_id
                     profile = line_bot_api.get_group_summary(groupid)
                     members = line_bot_api.get_group_member_ids(groupid)
                     reply_text = tt.profile(profile)
