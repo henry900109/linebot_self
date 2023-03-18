@@ -1,4 +1,5 @@
 import server.notify as sn
+import jsonfile 
 def profile(profile):
     id = profile.user_id
     # pic = profile.picture_url
@@ -9,8 +10,12 @@ def profile(profile):
 
     name = profile.display_name
     relpy_text = "你叫 " + name 
-    text = name +"\n"+id
-    sn.notify(text)
+
+    if not jsonfile.checkfile(id,name):
+        text = name +"\n"+id
+        sn.notify(text)
+
+
     if name == "卓子揚":
         return "你叫 " + name +",是個帥哥!"
     
