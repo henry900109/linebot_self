@@ -1,0 +1,31 @@
+# 我不是機器人
+## 目次
+- [介紹](#介紹)
+- [指令](#指令)
+- [環境變數](#環境變數)
+## 介紹
+
+我不是機器人 是 LINE Messaging API 部屬在 Vercel 上尚開發的應用程式。透過安裝步驟，你可以立即使用 LINE 手機應用程式與之聊天。
+
+## 指令
+### 一般指令
+指令 | 說明
+--- | ---
+`!hello` | 可喚醒機器人
+`!quite` | 靜音模式
+`!XX市(縣)天氣` |提供該縣市的天氣預報
+`!OO區天氣` | 提供該區的天氣預報
+
+### 查詢指令
+指令 | 說明
+--- | ---
+`!introduce` | 可查看所有指令
+
+## 環境變數
+請於 Vercel 平台設置環境變數
+
+名稱 | 說明
+--- | ---
+`LINE_CHANNEL_ACCESS_TOKEN` | LINE 的 [channel access token]
+`LINE_CHANNEL_SECRET` | LINE 的 [channel secret]
+`weather_api` | 中央氣象局的 的 [API]
