@@ -7,8 +7,9 @@ import utils.introduce as ui
 import utils.polite as up
 import utils.proflie as uf
 import root.polite as rp
+import Game.Guessnumber as Guessnumber
 import test.test as tt
-import requests
+import random
 import os
 
 #設置環境變數
@@ -22,8 +23,13 @@ app = Flask(__name__)
 
 #預設為安靜模式
 quiet_mode = True
+
 #root權限
 root_mode = False
+
+#遊戲模式
+gamemode = False
+
 # domain root
 @app.route('/')
 def home():
@@ -113,6 +119,19 @@ def handle_message(event):
                         reply_text = uf.profile(profile)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
+                    elif message == "!play":
+                        reply_text = "猜數字, 1~100\n!out 可結束遊戲"
+
+                        #開啟遊戲模式
+                        gamemode = True
+
+                        # 設定猜數字的範圍
+                        range_min = 1
+                        range_max = 100
+                        answer = random.randint(range_min, range_max)
+
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
                     elif message[0] == "!" and "天氣" == message[4:]:
                         
                         #新北市XX區天氣
@@ -127,8 +146,16 @@ def handle_message(event):
                             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                     else:
+                        if gamemode == True:
+                            if message == "!out":
+                                gamemode = False
+                            else:
+                                reply_text = Guessnumber(message,range_min,range_max,answer)
+                                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                            
+                        else:
                         #鸚鵡
-                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
+                            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
 
 
 if __name__ == "__main__":
