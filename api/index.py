@@ -46,7 +46,7 @@ def callback():
 def handle_message(event):
     global quiet_mode
     message = event.message.text
-    userid = event.source.userId
+    userid = event.source.user_id
     # 如果使用者輸入 "安靜"，則設定 quiet_mode 為 True，否則回傳相同訊息
     if message == "!安靜"or message == "!quite":
         quiet_mode = True
