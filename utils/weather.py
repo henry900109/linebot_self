@@ -31,8 +31,6 @@ def weather(WEATHER_API_KEY,user):
    
     weather_apikey = WEATHER_API_KEY
    
-    # weather_apikey = 'CWB-1C2DC824-FEDC-47BD-9693-694422ECCCC3'
-    
     dataid = 'F-D0047-069' #新北市
    
     element_name = "T,Wx,PoP6h,AT"
@@ -87,8 +85,8 @@ def weather(WEATHER_API_KEY,user):
 
         if relpy_text == user[2:] +"\n":
             relpy_text = "天氣查詢失敗"
-            
-    return print(relpy_text)
+
+    return relpy_text
     
 
 
