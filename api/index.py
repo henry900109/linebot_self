@@ -56,6 +56,7 @@ def callback():
 def handle_message(event):
     global quiet_mode
     global root_mode
+    global gamemode
     #訊息
     message = event.message.text
 
