@@ -76,7 +76,7 @@ def handle_message(event):
                     groupid = event.source.group_id
                     profile = line_bot_api.get_group_summary(groupid)
                     members = line_bot_api.get_group_member_ids(groupid)
-                    reply_text = tt.profile(profile)
+                    reply_text = tt.group(profile)
                 except:
                     profile = line_bot_api.get_profile(userid)
                     reply_text = tt.profile(profile)
