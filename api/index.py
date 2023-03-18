@@ -3,6 +3,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import utils.weather as uw
+import utils.introduce as ui
 import test.test as tt
 import requests
 import os
@@ -58,6 +59,9 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="我回來了!"))
+    elif message == "!introduce":
+        reply_text = ui.interduce()
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
     else:
         if quiet_mode == False:
             if message == "卓子揚是帥哥嗎?":
