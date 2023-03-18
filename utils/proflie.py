@@ -11,13 +11,17 @@ def profile(profile):
     name = profile.display_name
     relpy_text = "你叫 " + name 
 
-    if not utils.jsonfile.checkfile(id,name):
-        text = name +"\n"+id
-        sn.notify(text)
+    # if not utils.jsonfile.checkfile(id,name):
+    #     text = name +"\n"+id
+    #     sn.notify(text)
 
 
     if name == "卓子揚":
-        return "你叫 " + name +",是個帥哥!"
+        import os
+        print("当前路径 -  %s" %os.getcwd())
+        current_path = os.path.dirname(__file__)
+        # return "你叫 " + name +",是個帥哥!"
+        return current_path
     
     else:
 
