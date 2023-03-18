@@ -46,7 +46,7 @@ def callback():
 def handle_message(event):
     global quiet_mode
     message = event.message.text
-
+    userid = event.source.userId
     # 如果使用者輸入 "安靜"，則設定 quiet_mode 為 True，否則回傳相同訊息
     if message == "!安靜"or message == "!quite":
         quiet_mode = True
@@ -67,7 +67,7 @@ def handle_message(event):
                 TextSendMessage(text=retext))
             elif message == "!test":
                 # reply_text = tt.test()
-                reply_text = 'hello'
+                profile = line_bot_api.get_profile(userid)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             elif message[0] == "!" and "天氣" == message[4:]:
                 if "區天氣" == message[3:]:
