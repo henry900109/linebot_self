@@ -5,6 +5,6 @@ def profile(profile):
 
     name = profile.display_name
     if name != "卓子揚":
-        return "你叫: " + name 
+        return "你叫 " + name 
     else:
-        return "你叫: " + name +",是個帥哥!"
+        return "你叫 " + name +",是個帥哥!"
