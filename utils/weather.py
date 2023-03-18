@@ -1,5 +1,6 @@
 import requests
 import json
+
 def get_weather(WEATHER_API_KEY,locationname):
     # 請在下方填入您的 API Key
     url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-071"
@@ -21,6 +22,7 @@ def get_weather(WEATHER_API_KEY,locationname):
         return reply_text
     else:
         return "天氣查詢失敗！"
+    
 def get_country_weather(WEATHER_API_KEY,locationname):
     WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
     locationname = locationname.replace("台","臺",True) if "台" in locationname else locationname

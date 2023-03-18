@@ -22,9 +22,9 @@ def profile(profile):
     
     else:
 
-
         if m != "":
             return relpy_text
+        
         else:
             # return "你叫 " + name +"\n 你總說" + m
             return relpy_text

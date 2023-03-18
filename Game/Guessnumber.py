@@ -1,10 +1,5 @@
-
-
-
 # 猜數字的函數
 def Guessnumber(user_input,range_min,range_max,answer):
-
-
 
     try:
         user_number = int(user_input)
