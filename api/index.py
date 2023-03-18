@@ -154,7 +154,7 @@ def handle_message(event):
                             if message == "!out":
                                 gamemode = False
                             else:
-                                reply_text = Guessnumber(message,range_min,range_max,answer)
+                                reply_text = Guessnumber.Guessnumber(message,range_min,range_max,answer)
                                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                             
                         else:
