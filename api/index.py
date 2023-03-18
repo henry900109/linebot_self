@@ -68,6 +68,7 @@ def handle_message(event):
             elif message == "!test":
                 # reply_text = tt.test()
                 profile = line_bot_api.get_profile(userid)
+                reply_text = tt.profile(profile)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             elif message[0] == "!" and "天氣" == message[4:]:
                 if "區天氣" == message[3:]:
