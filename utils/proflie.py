@@ -1,5 +1,5 @@
 import server.notify as sn
-import jsonfile 
+import utils.jsonfile 
 def profile(profile):
     id = profile.user_id
     # pic = profile.picture_url
@@ -11,7 +11,7 @@ def profile(profile):
     name = profile.display_name
     relpy_text = "你叫 " + name 
 
-    if not jsonfile.checkfile(id,name):
+    if not utils.jsonfile.checkfile(id,name):
         text = name +"\n"+id
         sn.notify(text)
 
