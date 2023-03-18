@@ -7,5 +7,5 @@ def checkfile(id,username):
     else:
         return False
         data[id] = username
-        with open(r'docs\user.json', 'w') as f:
+        with open(r'.\docs\user.json', 'w') as f:
             json.dump(data, f,ensure_ascii=False)
