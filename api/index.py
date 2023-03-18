@@ -29,6 +29,7 @@ root_mode = False
 
 #遊戲模式
 gamemode = False
+range_min,range_max,answer = 0,0,0
 
 # domain root
 @app.route('/')
@@ -54,31 +55,33 @@ def callback():
 #回應
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global quiet_mode
-    global root_mode
-    global gamemode
+
+    #設定變數
+    global root_mode, quiet_mode
+    global gamemode, range_min, range_max, answer
+
     #訊息
     message = event.message.text
 
     #使用者ID
     userid = event.source.user_id
 
-    # 如果使用者輸入 "安靜"，則設定 quiet_mode 為 True，否則回傳相同訊息
-
-    # tt.profile(line_bot_api.get_profile(userid))!="卓子揚" 設定XXX不回訊息
-
+    # 如果root輸入 "!!quite"，則設定 quiet_mode 為 True，否則回傳相同訊息
     if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
-        root_mode = True
+        root_mode = True #設為絕對安靜模式
+
         reply_text = rp.Goodbye()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
     elif message == "!!hello" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
         root_mode = False
+
         reply_text = rp.hello()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
     else:
-
+        
+        # 如果使用者輸入 "!quite"，則設定 quiet_mode 為 True，否則回傳相同訊息
         if root_mode == False:
 
             if message == "!安靜"or message == "!quite":
