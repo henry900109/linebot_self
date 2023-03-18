@@ -21,7 +21,8 @@ app = Flask(__name__)
 
 #預設為安靜模式
 quiet_mode = True
-
+#root權限
+root_mode = False
 # domain root
 @app.route('/')
 def home():
@@ -47,7 +48,7 @@ def callback():
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global quiet_mode
-
+    global root_mode
     #訊息
     message = event.message.text
 
@@ -58,61 +59,71 @@ def handle_message(event):
 
     # tt.profile(line_bot_api.get_profile(userid))!="卓子揚" 設定XXX不回訊息
 
-    if message == "!安靜"or message == "!quite":
+    if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
+        root_mode = True
 
-        quiet_mode = True #設為安靜模式
-
-        reply_text = up.Goodbye()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-    elif message == "!回來" or message == "!hello":
-
-        quiet_mode = False #關閉安靜模式
-
-        reply_text = up.hello()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-    elif message == "!introduce":
-        reply_text = ui.interduce()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-    elif "冰淇淋" in message and tt.profile(line_bot_api.get_profile(userid))!="詹茹萍":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
+    elif message == "!!hello" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
+        root_mode = False
 
     else:
 
-        if quiet_mode == False :
+        if root_mode == False:
 
-            if message == "卓子揚是帥哥嗎?":
-                retext = "那是肯定的"
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
+            if message == "!安靜"or message == "!quite":
 
-            elif message == "!test":# reply_text = tt.test() #測試用
-                profile = line_bot_api.get_profile(userid)
-                reply_text = tt.profile(profile)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                quiet_mode = True #設為安靜模式
 
-            elif message == "!whoami":
-                profile = line_bot_api.get_profile(userid)
-                reply_text = uf.profile(profile)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                reply_text = up.Goodbye()
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
-            elif message[0] == "!" and "天氣" == message[4:]:
-                
-                #新北市XX區天氣
-                if "區天氣" == message[3:]:
-                    LOCATION_NAME = message[1:4]
-                    reply_text = uw.get_weather(WEATHER_API_KEY = WEATHER_API_KEY,locationname = LOCATION_NAME)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+            elif message == "!回來" or message == "!hello":
 
-                #全臺各縣市天氣
-                else:
-                    reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                quiet_mode = False #關閉安靜模式
+
+                reply_text = up.hello()
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
+            elif message == "!introduce":
+                reply_text = ui.interduce()
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
+            elif "冰淇淋" in message and tt.profile(line_bot_api.get_profile(userid))!="詹茹萍":
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
 
             else:
-                #鸚鵡
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
+
+                if quiet_mode == False :
+
+                    if message == "卓子揚是帥哥嗎?":
+                        retext = "那是肯定的"
+                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
+
+                    elif message == "!test":# reply_text = tt.test() #測試用
+                        profile = line_bot_api.get_profile(userid)
+                        reply_text = tt.profile(profile)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                    elif message == "!whoami":
+                        profile = line_bot_api.get_profile(userid)
+                        reply_text = uf.profile(profile)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                    elif message[0] == "!" and "天氣" == message[4:]:
+                        
+                        #新北市XX區天氣
+                        if "區天氣" == message[3:]:
+                            LOCATION_NAME = message[1:4]
+                            reply_text = uw.get_weather(WEATHER_API_KEY = WEATHER_API_KEY,locationname = LOCATION_NAME)
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                        #全臺各縣市天氣
+                        else:
+                            reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                    else:
+                        #鸚鵡
+                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
 
 
 if __name__ == "__main__":
