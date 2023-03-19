@@ -134,7 +134,6 @@ def handle_message(event):
                         reply_text = ug.gpt3_5(Openai_token,message)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
-
                     # 玩遊戲
                     elif message == "!play":
                         reply_text = "猜數字, 1~100\n\n!out 可結束遊戲"
