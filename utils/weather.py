@@ -98,7 +98,7 @@ def now_weather(name):
   download = requests.get(url,headers = headers)
   download = download.text
   cityID = [6301200,6301100,6300600,6300400,6300100,6301000,6300700,6300500,6300300,6300200,6300900,6300800]
-  cityname = {"萬華區":6,"中正": 7,"南港" : 10,"文山": 11}
+  cityname = {"萬華區":6,"中正區": 7,"南港區" : 10,"文山區": 11}
   aid = cityname[name]
   text = js2py.eval_js(download)
   C_AT=[]
