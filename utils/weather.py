@@ -121,7 +121,7 @@ def now_weather(name):
   dt=df.T
   dt.columns=['Cityid','C_AT','C_T','RH','Rain','Sunrise','Sunset']
   timestr = time.strftime("%Y%m%d")
-  return '\n'+timestr + '\n'+name+'降雨機率為 ' + dt['Rain'][aid]  +"%\n最高溫: "+ dt['C_AT'][aid] + " 度\n最低溫: " + dt['C_T'][aid] +'度'
+  return timestr + '\n'+name+'降雨機率為 ' + dt['Rain'][aid]  +"%\n最高溫: "+ dt['C_AT'][aid] + " 度\n最低溫: " + dt['C_T'][aid] +'度'
 # 6300700 萬華 6
 #  63000500 中正 7
 #6300900 南港 10
