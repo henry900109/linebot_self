@@ -109,7 +109,7 @@ def handle_message(event):
 
                 if quiet_mode == False :
 
-                    if "卓子揚" in message:
+                    if "卓子揚" in message and "@卓子揚" not in message:
                         retext = "他是帥哥!!"
                         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
 
