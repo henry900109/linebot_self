@@ -162,7 +162,7 @@ def handle_message(event):
 
                         #!文山區天氣
                         cityname = ["萬華","中正","南港","文山"]
-                        if message[1:2]in cityname:
+                        if message[1:3]in cityname:
                             reply_text = uw.now_weather(message[1:4])
                             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
