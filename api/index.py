@@ -6,6 +6,7 @@ import utils.weather as uw
 import utils.introduce as ui
 import utils.polite as up
 import utils.proflie as uf
+import utils.gpt    as ug
 import root.polite as rp
 import Game.Guessnumber as Guessnumber
 import test.test as tt
@@ -16,6 +17,7 @@ import os
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 WEATHER_API_KEY = os.getenv("weather_api")
+Openai_token = os.getenv("Open_api")
 
 
 
@@ -66,7 +68,7 @@ def handle_message(event):
     #使用者ID
     userid = event.source.user_id
 
-    # 如果root輸入 "!!quite"，則設定 quiet_mode 為 True，否則回傳相同訊息
+    # 如果root輸入 "!!quite"，則設定 root_mode 為 True，否則回傳相同訊息
     if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
         root_mode = True #設為絕對安靜模式
 
@@ -108,21 +110,32 @@ def handle_message(event):
             else:
 
                 if quiet_mode == False :
-
+                    
+                    # 認主
                     if "卓子揚" in message and "@卓子揚" not in message:
                         retext = "他是帥哥!!"
                         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
 
+                    #測試模式
                     elif message == "!test":# reply_text = tt.test() #測試用
                         profile = line_bot_api.get_profile(userid)
                         reply_text = tt.profile(profile)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
+                    # 知道使用者身分
                     elif message == "!whoami":
                         profile = line_bot_api.get_profile(userid)
                         reply_text = uf.profile(profile)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                    
+                    # 與gpt3.5連接
+                    elif "!gpt" in message :
+                        message = message[4:]
+                        reply_text = ug.gpt3_5(Openai_token,message)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
+
+                    # 玩遊戲
                     elif message == "!play":
                         reply_text = "猜數字, 1~100\n\n!out 可結束遊戲"
 
@@ -136,22 +149,27 @@ def handle_message(event):
 
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
+                    # ( 今天 / 明天 ) 新北市OO區天氣
                     elif message[0] == "!" and "天氣" == message[6:]:
+
                         #!明天板橋區天氣
-                        #新北市XX區天氣
                         if "區天氣" == message[5:]:
                             LOCATION_NAME = message[1:]
                             reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
                             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
-                        #全臺各縣市天氣
+                    # 全臺各縣市天氣
                     elif message[0] == "!" and "天氣" == message[4:]:
                         
                         reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                     else:
+
+                        #確認是否在遊戲模式
                         if gamemode == True:
+
+                            #離開遊戲模式
                             if message == "!out":
                                 gamemode = False
 
@@ -160,13 +178,16 @@ def handle_message(event):
 
                             else:
                                 reply_text = Guessnumber.Guessnumber(message,range_min,range_max,answer)
+
+                                #遊戲成功
                                 if reply_text[0] == "f":
                                     reply_text = reply_text[1:]
                                     gamemode = False
                                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-                            
-                        else:
+                        
                         #鸚鵡
+                        else:
+                        
                             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
 
 
