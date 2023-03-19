@@ -159,9 +159,16 @@ def handle_message(event):
 
                     # 全臺各縣市天氣
                     elif message[0] == "!" and "天氣" == message[4:]:
-                        
-                        reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                        #!文山區天氣
+                        cityname = ["萬華","中正","南港","文山"]
+                        if message[3:4]in cityname:
+                            reply_text = uw.now_weather(message[3:5])
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                        else:
+                            reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                     else:
 

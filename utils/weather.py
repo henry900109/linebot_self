@@ -1,6 +1,9 @@
 import requests
 import json
 from datetime import datetime,timedelta
+import time
+import js2py
+import pandas as pd
 
 def get_weather(WEATHER_API_KEY,locationname):
     # 請在下方填入您的 API Key
@@ -88,6 +91,43 @@ def weather(WEATHER_API_KEY,user):
 
     return relpy_text
     
+def now_weather(name):
+  timestr = time.strftime("%Y%m%d%H")
+  url = 'https://www.cwb.gov.tw/Data/js/GT/TableData_GT_T_63.js?T='+timestr+'-4&_=1657432140292'
+  headers = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.47"}
+  download = requests.get(url,headers = headers)
+  download = download.text
+  cityID = [6301200,6301100,6300600,6300400,6300100,6301000,6300700,6300500,6300300,6300200,6300900,6300800]
+  cityname = {"萬華區":6,"中正": 7,"南港" : 10,"文山": 11}
+  aid = cityname[name]
+  text = js2py.eval_js(download)
+  C_AT=[]
+  C_T=[]
+  RH=[]
+  Rain=[]
+  Sunrise=[]
+  Sunset=[]
+  for item in cityID:
+    C_AT.append(text[item]["C_AT"])
+    C_T.append(text[item]["C_T"])
+    Rain.append(text[item]["Rain"])
+    RH.append(text[item]["RH"])
+    Sunrise.append(text[item]["Sunrise"])
+    Sunset.append(text[item]["Sunset"])
+    
+
+  output=[cityID,C_AT,C_T,RH,Rain,Sunrise,Sunset]
+  df=pd.DataFrame(output)
+  dt=df.T
+  dt.columns=['Cityid','C_AT','C_T','RH','Rain','Sunrise','Sunset']
+  timestr = time.strftime("%Y%m%d")
+  return '\n'+timestr + '\n'+name+'降雨機率為 ' + dt['Rain'][aid]  +"%\n最高溫: "+ dt['C_AT'][aid] + " 度\n最低溫: " + dt['C_T'][aid] +'度'
+# 6300700 萬華 6
+#  63000500 中正 7
+#6300900 南港 10
+#6300800 文山 11
+# print(now_weather())
+
 
 
 def get_country_weather(WEATHER_API_KEY,locationname):
