@@ -160,6 +160,9 @@ def handle_message(event):
 
                             else:
                                 reply_text = Guessnumber.Guessnumber(message,range_min,range_max,answer)
+                                if reply_text[0] == "f":
+                                    reply_text = reply_text[1:]
+                                    gamemode = False
                                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                             
                         else:

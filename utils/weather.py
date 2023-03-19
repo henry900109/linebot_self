@@ -83,8 +83,8 @@ def weather(WEATHER_API_KEY,user):
 
                 relpy_text+='N\A'
 
-        if relpy_text == user[2:] +"\n":
-            relpy_text = "天氣查詢失敗"
+    if relpy_text == user[2:] +"\n":
+        relpy_text = "天氣查詢失敗"
 
     return relpy_text
     
