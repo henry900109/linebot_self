@@ -31,6 +31,7 @@ root_mode = False
 
 #遊戲模式
 gamemode = False
+gameid = ""
 range_min,range_max,answer = 0,0,0
 
 # domain root
@@ -60,7 +61,7 @@ def handle_message(event):
 
     #設定變數
     global root_mode, quiet_mode
-    global gamemode, range_min, range_max, answer
+    global gamemode, gameid, range_min, range_max, answer
 
     #訊息
     message = event.message.text
@@ -71,6 +72,8 @@ def handle_message(event):
     # 如果root輸入 "!!quite"，則設定 root_mode 為 True，否則回傳相同訊息
     if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
         root_mode = True #設為絕對安靜模式
+        gameid = ""
+        gamemode = False
 
         reply_text = rp.Goodbye()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
@@ -89,6 +92,7 @@ def handle_message(event):
             if message == "!安靜"or message == "!quite":
 
                 quiet_mode = True #設為安靜模式
+                gamemode = False
 
                 reply_text = up.Goodbye()
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
@@ -136,6 +140,7 @@ def handle_message(event):
 
                     # 玩遊戲
                     elif message == "!play":
+                        gameid = userid
                         reply_text = "猜數字, 1~100\n\n!out 可結束遊戲"
 
                         #開啟遊戲模式
@@ -173,10 +178,11 @@ def handle_message(event):
                     else:
 
                         #確認是否在遊戲模式
-                        if gamemode == True:
+                        if gamemode == True and gameid == userid:
 
                             #離開遊戲模式
                             if message == "!out":
+                                gameid = ""
                                 gamemode = False
 
                                 reply_text = "遊戲結束\n\n答案為 " + str(answer)
@@ -187,6 +193,7 @@ def handle_message(event):
 
                                 #遊戲成功
                                 if reply_text[0] == "f":
+                                    gameid = ""
                                     reply_text = reply_text[1:]
                                     gamemode = False
                                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
