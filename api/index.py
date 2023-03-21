@@ -111,97 +111,96 @@ def handle_message(event):
             elif "冰淇淋" in message and tt.profile(line_bot_api.get_profile(userid))!="詹茹萍":
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
 
-            else:
+            elif "卓子揚" in message and "@卓子揚" not in message:
 
-                if quiet_mode == False :
+                
                     
                     # 認主
-                    if "卓子揚" in message and "@卓子揚" not in message:
-                        retext = "他是帥哥!!"
-                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
+                retext = "他是帥哥!!"
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
 
-                    #測試模式
-                    elif message == "!test":# reply_text = tt.test() #測試用
-                        profile = line_bot_api.get_profile(userid)
-                        reply_text = tt.profile(profile)
+            #測試模式
+            elif message == "!test":# reply_text = tt.test() #測試用
+                profile = line_bot_api.get_profile(userid)
+                reply_text = tt.profile(profile)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+            # 知道使用者身分
+            elif message == "!whoami":
+                profile = line_bot_api.get_profile(userid)
+                reply_text = uf.profile(profile)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+            
+            # 與gpt3.5連接
+            elif "!gpt" in message and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
+                message = message[4:]
+                reply_text = ug.gpt3_5(Openai_token,message)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+            # 玩遊戲
+            elif message == "!play":
+                gameid = userid
+                reply_text = "猜數字, 1~100\n\n!out 可結束遊戲"
+
+                #開啟遊戲模式
+                gamemode = True
+
+                # 設定猜數字的範圍
+                range_min = 1
+                range_max = 100
+                answer = random.randint(range_min, range_max)
+
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+            # ( 今天 / 明天 ) 新北市OO區天氣
+            elif message[0] == "!" and "天氣" == message[9:]:
+
+                #!明天板橋區天氣
+                if "區天氣" == message[5:]:
+                    LOCATION_NAME = message[1:]
+                    reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+            # 全臺各縣市天氣
+            elif message[0] == "!" and "天氣" == message[4:]:
+
+                #!文山區天氣
+                cityname = ["萬華","中正","南港","文山"]
+                if message[1:3]in cityname:
+                    reply_text = uw.now_weather(message[1:4])
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                else:
+                    reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+            else:
+
+                #確認是否在遊戲模式
+                if gamemode == True and gameid == userid:
+
+                    #離開遊戲模式
+                    if message == "!out":
+                        gameid = ""
+                        gamemode = False
+
+                        reply_text = "遊戲結束\n\n答案為 " + str(answer)
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-                    # 知道使用者身分
-                    elif message == "!whoami":
-                        profile = line_bot_api.get_profile(userid)
-                        reply_text = uf.profile(profile)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-                    
-                    # 與gpt3.5連接
-                    elif "!gpt" in message and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
-                        message = message[4:]
-                        reply_text = ug.gpt3_5(Openai_token,message)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-                    # 玩遊戲
-                    elif message == "!play":
-                        gameid = userid
-                        reply_text = "猜數字, 1~100\n\n!out 可結束遊戲"
-
-                        #開啟遊戲模式
-                        gamemode = True
-
-                        # 設定猜數字的範圍
-                        range_min = 1
-                        range_max = 100
-                        answer = random.randint(range_min, range_max)
-
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-                    # ( 今天 / 明天 ) 新北市OO區天氣
-                    elif message[0] == "!" and "天氣" == message[10:]:
-
-                        #!明天板橋區天氣
-                        if "區天氣" == message[5:]:
-                            LOCATION_NAME = message[1:]
-                            reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
-                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-                    # 全臺各縣市天氣
-                    elif message[0] == "!" and "天氣" == message[4:]:
-
-                        #!文山區天氣
-                        cityname = ["萬華","中正","南港","文山"]
-                        if message[1:3]in cityname:
-                            reply_text = uw.now_weather(message[1:4])
-                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-                        else:
-                            reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
-                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                     else:
+                        reply_text = Guessnumber.Guessnumber(message,range_min,range_max,answer)
 
-                        #確認是否在遊戲模式
-                        if gamemode == True and gameid == userid:
-
-                            #離開遊戲模式
-                            if message == "!out":
-                                gameid = ""
-                                gamemode = False
-
-                                reply_text = "遊戲結束\n\n答案為 " + str(answer)
-                                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-                            else:
-                                reply_text = Guessnumber.Guessnumber(message,range_min,range_max,answer)
-
-                                #遊戲成功
-                                if reply_text[0] == "f":
-                                    gameid = ""
-                                    reply_text = reply_text[1:]
-                                    gamemode = False
-                                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                        #遊戲成功
+                        if reply_text[0] == "f":
+                            gameid = ""
+                            reply_text = reply_text[1:]
+                            gamemode = False
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                         
-                        #鸚鵡
-                        else:
-                        
-                            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
+                #鸚鵡
+        
+                if quiet_mode == False :      
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
 
 
 if __name__ == "__main__":
