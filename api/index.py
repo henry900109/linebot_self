@@ -154,25 +154,15 @@ def handle_message(event):
 
             # ( 今天 / 明天 ) 新北市OO區天氣
             elif message[0] == "!" and "天氣" == message[9:]:
-
-                #!明天板橋區天氣
-                if "區天氣" == message[5:]:
-                    LOCATION_NAME = message[1:]
-                    reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                    
+                LOCATION_NAME = message[1:]
+                reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
             # 全臺各縣市天氣
             elif message[0] == "!" and "天氣" == message[4:]:
-
-                #!文山區天氣
-                cityname = ["萬華","中正","南港","文山"]
-                if message[1:3]in cityname:
-                    reply_text = uw.now_weather(message[1:4])
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-                else:
-                    reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
             else:
 
