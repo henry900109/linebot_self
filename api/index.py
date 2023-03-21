@@ -14,7 +14,7 @@ import random
 import os
 
 #設置環境變數
-line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
+line_bot_api = LineBotApi(os.getenv("  "))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 WEATHER_API_KEY = os.getenv("weather_api")
 Openai_token = os.getenv("Open_api")

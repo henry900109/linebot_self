@@ -10,11 +10,11 @@ def gpt3_5(token,message):
 
     )
 
-    respone = respone.choices[0].message.content
+    # respone = respone.choices[0].message.content
 
-    respone = respone.replace("\n","",True) if "\n" in respone[10] else respone
+    # respone = respone.replace("\n","",True) if "\n" in respone[10] else respone
 
-    return respone
+    return respone 
 
 if __name__ == '__main__':
-    print(gpt3_5(token="",message="你是誰?"))
+    print(gpt3_5(token="",message="你是誰?"))  
