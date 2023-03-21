@@ -93,6 +93,7 @@ def handle_message(event):
 
                 quiet_mode = True #設為安靜模式
                 gamemode = False
+                gameid = ""
 
                 reply_text = up.Goodbye()
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
