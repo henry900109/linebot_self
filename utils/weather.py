@@ -30,24 +30,30 @@ def get_weather(WEATHER_API_KEY,locationname):
 
 def weather(WEATHER_API_KEY,user):
 
-    now = datetime.now().date()
+    now = datetime.now()
    
     weather_apikey = WEATHER_API_KEY
-   
-    dataid = 'F-D0047-069' #新北市
-   
+    
+    dataid = (user[2:5]).replace("台","臺",True) if "台" in (user[2:5]) else (user[2:5]) # dataid_code[user[2:5]] ex:新北市
+
+    dataid_code = {'宜蘭縣':'001','桃園市':'005','新竹縣':'009','苗栗縣':'013',
+                '彰化縣':'017','南投縣':'021','雲林縣':'025','嘉義縣':'029',
+                '屏東縣':'033','臺東縣':'037','花蓮縣':'041','澎湖縣':'045',
+                '基隆市':'049','新竹市':'053','嘉義市':'057','臺北市':'061',
+                '高雄市':'065','新北市':'069','臺中市':'073','臺南市':'077',
+                '連江縣':'081','金門縣':'085'}
+    
     element_name = "T,Wx,PoP6h,AT"
 
-    url = f'https://opendata.cwb.gov.tw/api/v1/rest/datastore/{dataid}?Authorization={weather_apikey}&locationName={user[2:5]}&elementName={element_name}'
+    url = f'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&locationName={user[5:-2]}&elementName={element_name}'
    
     response = requests.get(url)
    
     data = response.json()
-
+    
     date_code = {'今天':now,'明天':now + timedelta(days=1)}
     
     extra = data['records']['locations'][0]['location'][0]['weatherElement']
-
 
     relpy_text = user[2:] +"\n"
 
@@ -57,10 +63,9 @@ def weather(WEATHER_API_KEY,user):
         moment = datetime.strptime(extra[0]['time'][j]['startTime'], '%Y-%m-%d %H:%M:%S')
         
         # 判斷所需的日期天氣資料
+        if date_code[user[:2]] < moment and str(date_code[user[:2]].date()) in str(moment):
 
-        if str(date_code[user[:2]]) in str(moment):
-
-            relpy_text+= str(moment) 
+            relpy_text+= moment.strftime('%m/%d %H點')
             relpy_text+='\n'
 
             for i in range(len(extra)-1):
@@ -68,17 +73,30 @@ def weather(WEATHER_API_KEY,user):
                 description = extra[i]['description']
 
                 try:
+
                     wx = extra[i]['time'][j]['elementValue'][0]['value']
 
                 except IndexError:
 
                     wx = '尚未預測'
-                relpy_text+=description+":"+ wx 
-                relpy_text+='\n'
+
+                
+                if description == '天氣現象':
+
+                    relpy_text += wx + ','
+
+                elif description == '溫度':
+
+                    relpy_text += wx + '度'
+                    relpy_text += temp
+
+                elif description == '體感溫度':
+                    
+                    temp = '(體：'+wx + '度)\n'
 
             try:
 
-                relpy_text+=extra[-1]['description']+":"+extra[-1]['time'][j//2]['elementValue'][0]['value']+"%"
+                relpy_text+=extra[-1]['description'][3:]+":"+extra[-1]['time'][j//2]['elementValue'][0]['value']+"%"
                 relpy_text+='\n'
                 relpy_text+='\n'
 
@@ -86,9 +104,10 @@ def weather(WEATHER_API_KEY,user):
 
                 relpy_text+='N\A'
 
-    if relpy_text == user[2:] +"\n":
-        relpy_text = "天氣查詢失敗"
+        if relpy_text == user[2:] +"\n"+'\n':
 
+            relpy_text = "天氣查詢失敗"
+            
     return relpy_text
     
 def now_weather(name):
