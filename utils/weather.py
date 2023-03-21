@@ -107,6 +107,9 @@ def weather(WEATHER_API_KEY,user):
         if relpy_text == user[2:] +"\n"+'\n':
 
             relpy_text = "天氣查詢失敗"
+
+        else:
+            relpy_text = relpy_text[:-4]
             
     return relpy_text
     
