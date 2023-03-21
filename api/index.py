@@ -154,7 +154,7 @@ def handle_message(event):
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                     # ( 今天 / 明天 ) 新北市OO區天氣
-                    elif message[0] == "!" and "天氣" == message[8:]:
+                    elif message[0] == "!" and "天氣" == message[10:]:
 
                         #!明天板橋區天氣
                         if "區天氣" == message[5:]:
