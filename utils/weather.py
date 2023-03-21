@@ -109,8 +109,8 @@ def weather(WEATHER_API_KEY,user):
             relpy_text = "天氣查詢失敗"
 
         else:
-            relpy_text = relpy_text[:-4]
-            
+            relpy_text = relpy_text[:-2]
+
     return relpy_text
     
 def now_weather(name):
