@@ -13,6 +13,7 @@ import test.test as tt
 import random
 import os
 
+
 #設置環境變數
 line_bot_api = LineBotApi(os.getenv("  "))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
