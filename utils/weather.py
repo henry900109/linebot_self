@@ -80,20 +80,20 @@ def weather(WEATHER_API_KEY,user):
       
                 if description == '天氣現象':
 
-                    relpy_text += wx + ','
+                    relpy_text += wx + ', '
 
                 elif description == '溫度':
 
-                    relpy_text += wx + '度'
+                    relpy_text += wx + ' 度'
                     relpy_text += temp
 
                 elif description == '體感溫度':
                     
-                    temp = '(體：'+wx + '度)\n'
+                    temp = ' (體：'+wx + ' 度 )\n'
 
             try:
 
-                relpy_text+=extra[-1]['description'][3:]+":"+extra[-1]['time'][j//2]['elementValue'][0]['value']+"%"
+                relpy_text+=extra[-1]['description'][3:]+" : "+extra[-1]['time'][j//2]['elementValue'][0]['value']+" %"
                 relpy_text+='\n'
                 relpy_text+='\n'
 
