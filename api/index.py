@@ -1,7 +1,7 @@
 from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage,PostbackEvent
 from linebot.models import QuickReply, QuickReplyButton, MessageAction, ImageSendMessage,PostbackAction,DatetimePickerAction,CameraAction,CameraRollAction,LocationAction
 import utils.weather as uw
 import utils.introduce as ui
@@ -228,6 +228,14 @@ def handle_message(event):
         
                 if quiet_mode == False :      
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
+
+@line_handler.add(PostbackEvent)
+def handle_postback(event):
+    data = event.postback.data  # 取得使用者回傳的資料
+    reply_text = data
+    # 建立TextSendMessage物件，並回傳給使用者
+    reply_msg = TextSendMessage(text=reply_text)
+    line_bot_api.reply_message(event.reply_token, reply_msg)
 
 
 if __name__ == "__main__":
