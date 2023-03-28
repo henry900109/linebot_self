@@ -213,7 +213,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, reply_text)
 
     elif postback_data[0] == "T":
-        reply_text = postback_data[1:]
+        reply_text = "您所輸入的縣市為: " + postback_data[1:]
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
 
