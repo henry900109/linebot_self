@@ -209,7 +209,7 @@ def handle_postback(event):
     postback_data = event.postback.data
     if postback_data[0] == "C":
         quick_reply = uwr.town(postback_data)
-        reply_text = TextSendMessage(text="文字訊息",quick_reply=quick_reply)
+        reply_text = TextSendMessage(text="請選擇行政區",quick_reply=quick_reply)
         line_bot_api.reply_message(event.reply_token, reply_text)
 
     elif postback_data[0] == "T":
