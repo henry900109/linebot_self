@@ -4,6 +4,7 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage,PostbackEvent
 from linebot.models import QuickReply, QuickReplyButton, MessageAction, ImageSendMessage,PostbackAction,DatetimePickerAction,CameraAction,CameraRollAction,LocationAction
 import utils.weather as uw
+import utils.weather_quickreply as uwr
 import utils.introduce as ui
 import utils.polite as up
 import utils.proflie as uf
@@ -116,42 +117,16 @@ def handle_message(event):
 
 
 
-            elif "a" in message:
-
-                quick_reply=QuickReply(
-                    items=[
-                        QuickReplyButton(
-                            action=PostbackAction(label="Postback",data="回傳資料")
-                            ),
-                        QuickReplyButton(
-                            action=MessageAction(label="文字訊息",text="回傳文字")
-                            ),
-                        QuickReplyButton(
-                            action=DatetimePickerAction(label="時間選擇",data='action=buy&itemid=1',mode='datetime')
-                            ),
-                        QuickReplyButton(
-                            action=CameraAction(label="拍照")
-                            ),
-                        QuickReplyButton(
-                            action=CameraRollAction(label="相簿")
-                            ),
-                        QuickReplyButton(
-                            action=LocationAction(label="傳送位置")
-                            )
-                        ]
-                    )
-                reply_text = TextSendMessage(text="文字訊息",quick_reply=quick_reply)
-
-
+            elif "!我要查詢天氣" == message:
+                quick_reply = uwr.countryname()
+                reply_text = TextSendMessage(text="請選擇縣市",quick_reply=quick_reply)
                 line_bot_api.reply_message(event.reply_token, reply_text)
+               
 
 
 
 
             elif "卓子揚" in message and "@卓子揚" not in message:
-
-                
-                    
                     # 認主
                 retext = "他是帥哥!!"
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
@@ -231,15 +206,16 @@ def handle_message(event):
 
 @line_handler.add(PostbackEvent)
 def handle_postback(event):
-    if event.postback.data.startswith('action=buy&itemid='):
-        # 獲取使用者選擇的日期和時間
-        selected_datetime = event.postback.params['datetime']
+    postback_data = event.postback.data
+    if postback_data[0] == "C":
+        quick_reply = uwr.town(postback_data)
+        reply_text = TextSendMessage(text="文字訊息",quick_reply=quick_reply)
+        line_bot_api.reply_message(event.reply_token, reply_text)
 
-        # 回傳日期和時間給使用者
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=f"您選擇的日期和時間是：{selected_datetime}")
-        )
+    elif postback_data[0] == "T":
+        reply_text = postback_data[1:]
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
 
 if __name__ == "__main__":
     app.run()
