@@ -2,7 +2,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
-from linebot.models import QuickReply, QuickReplyButton, MessageAction, ImageSendMessage
+from linebot.models import QuickReply, QuickReplyButton, MessageAction, ImageSendMessage,PostbackAction,DatetimePickerAction,CameraAction,CameraRollAction,LocationAction
 import utils.weather as uw
 import utils.introduce as ui
 import utils.polite as up
@@ -117,27 +117,34 @@ def handle_message(event):
 
 
             elif "a" in message:
-                quick_reply_items = [
-                    QuickReplyButton(action=MessageAction(label="選項1", text="選項1")),
-                    QuickReplyButton(action=MessageAction(label="選項2", text="選項2")),
-                    # Add more quick reply items...
-                ]
+                reply_text=TextSendMessage(
+                    text="文字訊息",
+                    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton(
+                                action=PostbackAction(label="Postback",data="回傳資料")
+                                ),
+                            QuickReplyButton(
+                                action=MessageAction(label="文字訊息",text="回傳文字")
+                                ),
+                            QuickReplyButton(
+                                action=DatetimePickerAction(label="時間選擇",data="時間選擇",mode='datetime')
+                                ),
+                            QuickReplyButton(
+                                action=CameraAction(label="拍照")
+                                ),
+                            QuickReplyButton(
+                                action=CameraRollAction(label="相簿")
+                                ),
+                            QuickReplyButton(
+                                action=LocationAction(label="傳送位置")
+                                )
+                            ]
+                        )
+                    )
 
-                quick_reply = QuickReply(
-                    items=quick_reply_items,
-                    background_color="#FFFFFF",
-                    button_color="#000000",
-                    # button_image_url="https://example.com/quickreply_button_image.jpg",
-                    # button_image_size="cover"
-                )
 
-                image_message = ImageSendMessage(
-                    # original_content_url="https://example.com/image.jpg",
-                    # preview_image_url="https://example.com/image_preview.jpg",
-                    quick_reply=quick_reply
-                )
-
-                line_bot_api.reply_message(event.reply_token, image_message)
+                line_bot_api.reply_message(event.reply_token, reply_text)
 
 
 
