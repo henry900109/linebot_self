@@ -117,31 +117,30 @@ def handle_message(event):
 
 
             elif "a" in message:
-                reply_text=TextSendMessage(
-                    text="文字訊息",
-                    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton(
-                                action=PostbackAction(label="Postback",data="回傳資料")
-                                ),
-                            QuickReplyButton(
-                                action=MessageAction(label="文字訊息",text="回傳文字")
-                                ),
-                            QuickReplyButton(
-                                action=DatetimePickerAction(label="時間選擇",data="時間選擇",mode='datetime')
-                                ),
-                            QuickReplyButton(
-                                action=CameraAction(label="拍照")
-                                ),
-                            QuickReplyButton(
-                                action=CameraRollAction(label="相簿")
-                                ),
-                            QuickReplyButton(
-                                action=LocationAction(label="傳送位置")
-                                )
-                            ]
-                        )
+
+                quick_reply=QuickReply(
+                    items=[
+                        QuickReplyButton(
+                            action=PostbackAction(label="Postback",data="回傳資料")
+                            ),
+                        QuickReplyButton(
+                            action=MessageAction(label="文字訊息",text="回傳文字")
+                            ),
+                        QuickReplyButton(
+                            action=DatetimePickerAction(label="時間選擇",data="時間選擇",mode='datetime')
+                            ),
+                        QuickReplyButton(
+                            action=CameraAction(label="拍照")
+                            ),
+                        QuickReplyButton(
+                            action=CameraRollAction(label="相簿")
+                            ),
+                        QuickReplyButton(
+                            action=LocationAction(label="傳送位置")
+                            )
+                        ]
                     )
+                reply_text = TextSendMessage(text="文字訊息",quick_reply=quick_reply)
 
 
                 line_bot_api.reply_message(event.reply_token, reply_text)
