@@ -116,7 +116,7 @@ def handle_message(event):
 
 
 
-            elif "冰淇淋" in message:
+            elif "a" in message:
                 quick_reply_items = [
                     QuickReplyButton(action=MessageAction(label="選項1", text="選項1")),
                     QuickReplyButton(action=MessageAction(label="選項2", text="選項2")),
