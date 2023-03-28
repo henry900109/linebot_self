@@ -121,13 +121,13 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=PostbackAction(label="Postback",data="回傳資料")
+                            action=PostbackAction(label="Postback")
                             ),
                         QuickReplyButton(
                             action=MessageAction(label="文字訊息",text="回傳文字")
                             ),
                         QuickReplyButton(
-                            action=DatetimePickerAction(label="時間選擇",data="時間選擇",mode='datetime')
+                            action=DatetimePickerAction(label="時間選擇",mode='datetime')
                             ),
                         QuickReplyButton(
                             action=CameraAction(label="拍照")
