@@ -121,13 +121,13 @@ def handle_message(event):
                 quick_reply=QuickReply(
                     items=[
                         QuickReplyButton(
-                            action=PostbackAction(label="Postback")
+                            action=PostbackAction(label="Postback",data="回傳資料")
                             ),
                         QuickReplyButton(
                             action=MessageAction(label="文字訊息",text="回傳文字")
                             ),
                         QuickReplyButton(
-                            action=DatetimePickerAction(label="時間選擇",mode='datetime')
+                            action=DatetimePickerAction(label="時間選擇",data='action=buy&itemid=1',mode='datetime')
                             ),
                         QuickReplyButton(
                             action=CameraAction(label="拍照")
@@ -231,12 +231,15 @@ def handle_message(event):
 
 @line_handler.add(PostbackEvent)
 def handle_postback(event):
-    data = event.postback.data  # 取得使用者回傳的資料
-    reply_text = data
-    # 建立TextSendMessage物件，並回傳給使用者
-    reply_msg = TextSendMessage(text=reply_text)
-    line_bot_api.reply_message(event.reply_token, reply_msg)
+    if event.postback.data.startswith('action=buy&itemid='):
+        # 獲取使用者選擇的日期和時間
+        selected_datetime = event.postback.params['datetime']
 
+        # 回傳日期和時間給使用者
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=f"您選擇的日期和時間是：{selected_datetime}")
+        )
 
 if __name__ == "__main__":
     app.run()
