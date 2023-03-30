@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "optimal-signer-334903",
+  "private_key_id": "d972d0dbeb67acaf0c6d2644380fa0078fd47551",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDJGbiXskWRdMud\nrNkDUs23El0Q2X8ui5hoSrvSL91jcTW86l4zTDoRkp3G4K5cf1Jr4Ttd5ryqwG/V\nwou6tCZMGfNajOWmZROU8Ge1tLDRGWU1MLte5k4AIxMrQ1kggdLj/FNILi11OjU8\nrstX8oEyrTtR1JS3xsNgNqATIb7Wtw21udpQEPRH9ZgMC2XX61+hxcal7xosvxKo\ndYfqo8buX74Wp905rCunGT4lK3paZ2wIuoCh3hto5gBSCLUHe39pGYIWPVMNg+uG\n719j14pEvxOpT0P32Vep+hA7j63DMG0SBEhydySMLsnf2uER7ABrUnNNPqp45HIu\nwwhNix7XAgMBAAECggEALryCkQbGckKhm7hzCvmwg46KAIN7slaRChPsSLIFErpZ\n0djqIaPijvjzIChRfX+9qQLEaFNan5hvpU88aBy8Fc2mJ/I84Qn2nhOtFqayvTXY\ntp7nvOtrT07XgqN5UDu7xm568HiC6g6oFr1M1tiuPBfUhHUSRw+zkmW/mBKspnul\nBEmKXkEttr+FUHASHwlaWmjmy9jeSaJ4U3BL3cpnJD8AaFEuZ5L7SSDrRNSnry43\nYNRopQVAdciR5FjUbYXSAwxccEl9EUZCEIFHuG1VgmiS7U7W+ItliiY4sQR0RUOa\nIjOuKExQwPejU8J8odFqvJiEi+4/86V87XpgzH+fcQKBgQDlniJ9tVemVZ3+ia9e\nAHU8ZRJMQq0xbcAzNiOx7j/dQBR9tKDhqLzGPpXLoP1m9NLVgscg6FrC2sLm61CP\nhn8vPhEg5C3gXEGC/92m7UNAXP3xDGRw+GGZ17lBniaeiJ1B9ZTwWBGtxppZW53L\nL4mTXu2oUO3sLK0rXvrit3gVzwKBgQDgNMs8ids9cU33vA3mAXTNo4s8lu4rmWI9\nylk+NbNQaooI2DF18rMkdgG3xM6uxWdMXciXDH67hORtpLpivuJ4dWr7pgkbAo2r\nBfq09I2RDqEpPLriM9n/pfxAKh+A6/Mznn89Al65H9TO/JX1bFvtx4LPLhY4cSKk\nzTSAka4weQKBgGPX1CWXQcqY9f9lPTUBu/iL9l3krEyO7YEXLIRFFc4N/BsA/OfC\nqHsHYblOgoFPOZIPsKiVgEm0OAWTEs+l6w3OzkHgFja1xuLAgVABYTnOdbln6xDY\nYBA2Jl7q9t3+h2rT73RmxyEp95mdZcqhHBBRucNzlVEZyB7QyQTmRDgvAoGBAIa5\nkqq1GAYK0NQdr6hXla2AKcnl1AZk6/C/Z/MG59JZwspfxxDeHyG4u32HCL9ipZjw\n/fkuK/VYfL8Z7lop5AKIZBoFgpE1bpWnSSh1j5/rz5HtCUul5shFIJgZ98ZLgl+x\nTToG846AfytGAoJwc6klawg95GJUMYIgQP1FDQvZAoGAOYL65huTSLbhpHEbabM/\neRBsokxPQ8BxFblgVmcIrzOdSu78KnFsP2MbeWFbmfOypQusy0MhjI3qiyGh0+Hl\nPLIbHXRPp6voRhfueZU/95eX4rFBME0lcmGJ6FYotMoabESz6Stcndx2VKmoE5l4\ncF4eXdxrnajrxrKN+O7wVqE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "linebot@optimal-signer-334903.iam.gserviceaccount.com",
+  "client_id": "109100907014662246703",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/linebot%40optimal-signer-334903.iam.gserviceaccount.com"
+}

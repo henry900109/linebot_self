@@ -12,6 +12,7 @@ import utils.gpt    as ug
 import root.polite as rp
 import Game.Guessnumber as Guessnumber
 import test.test as tt
+import test.sheet as ts
 import random
 import os
 
@@ -170,9 +171,14 @@ def handle_message(event):
                 reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
-            elif message == "測試":
+            elif message == "測試flex":
                 reply_text = tt.flex()
                 line_bot_api.reply_message(event.reply_token, reply_text)
+
+            elif message == "測試sheet":
+                reply_text = ts.sheet()
+                line_bot_api.reply_message(event.reply_token, reply_text)
+                
             else:
 
                 #確認是否在遊戲模式
