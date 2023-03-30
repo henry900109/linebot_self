@@ -30,3 +30,11 @@ def town(cityname):
                             QuickReplyButton( action=PostbackAction ( label="南港區", data="T臺北市南港區" ) ),
                             ])
     return quick_reply
+
+def tomorrow_or_today(check):
+    quick_reply=QuickReply(
+                        items=[
+                            QuickReplyButton( action=PostbackAction ( label="今天", data= "D今天" + check[1:] ) ),
+                            QuickReplyButton( action=PostbackAction ( label="明天", data= "D明天" + check[1:] ) ),
+                        ])
+    return quick_reply
