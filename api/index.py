@@ -176,9 +176,9 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, reply_text)
 
             elif message == "測試sheet":
-                reply_text = ts.sheet()
+                reply_text = ts.sheet(userid)
                 line_bot_api.reply_message(event.reply_token, reply_text)
-                
+
             else:
 
                 #確認是否在遊戲模式
