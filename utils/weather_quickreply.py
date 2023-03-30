@@ -3,12 +3,11 @@ from linebot.models import QuickReply, QuickReplyButton,PostbackAction
 
 #縣市名
 def countryname():
-    quick_reply=QuickReply(
-                        items=[
-                            QuickReplyButton( action=PostbackAction ( label="新北市", data="C新北市" ) ),
-                            QuickReplyButton( action=PostbackAction ( label="臺北市", data="C臺北市" ) ),
-                            ]
-    )
+    location = ["宜蘭縣","花蓮縣","臺東縣","澎湖縣","金門縣","連江縣","臺北市","新北市","桃園市","臺中市","臺南市","高雄市","基隆市","新竹縣","新竹市","苗栗縣","彰化縣","南投縣","雲林縣","嘉義縣","嘉義市","屏東縣"]
+    items = []
+    for item in location:
+        items.append(QuickReplyButton( action=PostbackAction ( label=item, data="C" + item ) ))
+    quick_reply=QuickReply(items)
     return quick_reply
 
 #區名
