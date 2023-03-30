@@ -214,8 +214,13 @@ def handle_postback(event):
 
     elif postback_data[0] == "T":
         reply_text = uwr.tomorrow_or_today(postback_data[1:])
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-
+        reply_text = TextSendMessage(text="請選擇日期",quick_reply=quick_reply)
+        line_bot_api.reply_message(event.reply_token, reply_text)
+    
+    elif postback_data[0] == "D":
+        reply_text = postback_data[1:]
+        reply_text = uw.weather(WEATHER_API_KEY,reply_text)
+        line_bot_api.reply_message(event.reply_token, reply_text)
+        
 if __name__ == "__main__":
     app.run()

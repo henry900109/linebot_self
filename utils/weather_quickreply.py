@@ -34,7 +34,7 @@ def town(cityname):
 def tomorrow_or_today(check):
     quick_reply=QuickReply(
                         items=[
-                            QuickReplyButton( action=PostbackAction ( label="今天", data= "D今天" + check[1:] ) ),
-                            QuickReplyButton( action=PostbackAction ( label="明天", data= "D明天" + check[1:] ) ),
+                            QuickReplyButton( action=PostbackAction ( label="今天", data= "D今天" + check ) ),
+                            QuickReplyButton( action=PostbackAction ( label="明天", data= "D明天" + check ) ),
                         ])
     return quick_reply
