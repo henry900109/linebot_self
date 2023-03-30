@@ -118,10 +118,9 @@ def handle_message(event):
 
 
             elif "!我要查詢天氣" == message:
-                quick_reply = uwr.countryname()
-                reply_text = TextSendMessage(text="請選擇縣市",quick_reply=quick_reply)
+                quick_reply = uwr.area()
+                reply_text = TextSendMessage(text="請選擇區域",quick_reply=quick_reply)
                 line_bot_api.reply_message(event.reply_token, reply_text)
-               
 
 
 
@@ -221,5 +220,12 @@ def handle_postback(event):
         reply_text = postback_data[1:]
         reply_text = uw.weather(WEATHER_API_KEY,reply_text)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+    
+    elif postback_data[0] == "A":
+        quick_reply = uwr.countryname(postback_data)
+        reply_text = TextSendMessage(text="請選擇縣市",quick_reply=quick_reply)
+        line_bot_api.reply_message(event.reply_token, reply_text)
+               
+
 if __name__ == "__main__":
     app.run()
