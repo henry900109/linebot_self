@@ -32,6 +32,7 @@ def town(cityname):
     return quick_reply
 
 def tomorrow_or_today(check):
+    check = check + "天氣"
     quick_reply=QuickReply(
                         items=[
                             QuickReplyButton( action=PostbackAction ( label="今天", data= "D今天" + check ) ),
