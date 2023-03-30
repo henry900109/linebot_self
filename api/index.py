@@ -115,15 +115,10 @@ def handle_message(event):
             elif "冰淇淋" in message and userid =="U39ef08913a1aa5a8e5f100399fe9fd2c":
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
 
-
-
             elif "!我要查詢天氣" == message:
                 quick_reply = uwr.area()
                 reply_text = TextSendMessage(text="請選擇區域",quick_reply=quick_reply)
                 line_bot_api.reply_message(event.reply_token, reply_text)
-
-
-
 
             elif "卓子揚" in message and "@卓子揚" not in message:
                     # 認主
@@ -175,6 +170,9 @@ def handle_message(event):
                 reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
+            elif message == "測試":
+                reply_text = tt.flex()
+                line_bot_api.reply_message(event.reply_token, reply_text)
             else:
 
                 #確認是否在遊戲模式
