@@ -156,7 +156,7 @@ def handle_message(event):
                 range_min = 1
                 range_max = 100
                 answer = random.randint(range_min, range_max)
-
+                Guessnumber.Guseenumder_start(userid)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
             # ( 今天 / 明天 ) 新北市OO區天氣
