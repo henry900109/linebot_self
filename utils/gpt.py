@@ -10,7 +10,7 @@ def gpt3_5(token,message):
 
     )
 
-    # respone = respone.choices[0].message.content
+    respone = respone.choices[0].message.content
 
     # respone = respone.replace("\n","",True) if "\n" in respone[10] else respone
 
