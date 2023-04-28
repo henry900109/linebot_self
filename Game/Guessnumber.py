@@ -64,7 +64,7 @@ def Guseenumder_start(userid):
     return 
 
 
-def Guessnumber_sheet():
+def Guessnumber_sheet(usernumber):
     credential_path = r'/var/task/docs/optimal-signer-334903-d972d0dbeb67.json'
 
     # 設置要讀取的試算表名稱
@@ -88,10 +88,15 @@ def Guessnumber_sheet():
         cell_list[0].value = 'game'
 
         worksheet.update_cells(cell_list)
-
+    data = worksheet.get_all_values()
+    cell_list = worksheet.range('A6:A8')
+    range_min,range_max,answer = int(data[3][0]),int(data[4][0]),int(data[2][0])
+    if usernumber < range_max and usernumber > answer:
+        cell_list[1].value = 'True' #user_range_min
+        cell_list[2].value = usernumber #user_range_max
     # 寫入資料
     cell_list = worksheet.range('A6:A8')
-    cell_list[0].value = int(cell_list[0][0]) + 1
+    cell_list[0].value = int(data[5][0]) + 1
     cell_list[1].value = 'True' #user_range_min
     cell_list[2].value = 'True' #user_range_max
 
