@@ -1,6 +1,6 @@
 import openai
 
-def gpt3(token, message):
+def gpt3_5(token, message):
 
   openai.api_key = token
 
@@ -17,5 +17,5 @@ def gpt3(token, message):
   return reply_msg
 
 if __name__ == '__main__':
-    print(gpt3(token="", message="紅茶要怎麼做?"))
+    print(gpt3_5(token="", message="紅茶要怎麼做?"))
 
