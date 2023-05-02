@@ -8,7 +8,7 @@ def gpt3_5(token, message):
                 model='text-davinci-003',
                 prompt="The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: " +message,
                 max_tokens=256,
-                temperature=0,
+                temperature=0.9,
                 frequency_penalty=0,
                 #預設的 OPENAI_FREQUENCY_PENALTY 為 0.5，OPENAI_PRESENCE_PENALTY 為 0.0
                 presence_penalty=0.6
