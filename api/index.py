@@ -37,6 +37,7 @@ root_mode = False
 gamemode = False
 gameid = ""
 range_min,range_max,answer = 0,0,0
+gpttemplate = ""
 
 # domain root
 @app.route('/')
@@ -65,7 +66,7 @@ def handle_message(event):
 
     #設定變數
     global root_mode, quiet_mode
-    global gamemode, gameid, range_min, range_max, answer
+    global gamemode, gameid, range_min, range_max, answer,gpttemplate
 
     #訊息
     message = event.message.text
@@ -143,12 +144,12 @@ def handle_message(event):
                 # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
                 message = message[1:]
                 template = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: " 
-                if template2:
-                    template2 = template2 + message
+                if gpttemplate != "":
+                    gpttemplate = gpttemplate + message
                 else:
-                    template2 = template + message
-                reply_text = ug.gpt3_5(Openai_token,template2)
-                template2 = "\nAI:" + reply_text + "\nHuman:"
+                    gpttemplate = template + message
+                reply_text = ug.gpt3_5(Openai_token,gpttemplate)
+                gpttemplate = "\nAI:" + reply_text + "\nHuman:"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
             # 玩遊戲
