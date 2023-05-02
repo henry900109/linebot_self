@@ -142,7 +142,13 @@ def handle_message(event):
             elif "/" in message[0] :
                 # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
                 message = message[1:]
-                reply_text = ug.gpt3_5(Openai_token,message)
+                template = "The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\nHuman: Hello, who are you?\nAI: I am an AI created by OpenAI. How can I help you today?\nHuman: " 
+                if template2:
+                    template2 = template2 + message
+                else:
+                    template2 = template + message
+                reply_text = ug.gpt3_5(Openai_token,template2)
+                template2 = "\nAI:" + reply_text + "\nHuman:"
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
             # 玩遊戲
