@@ -79,12 +79,14 @@ def handle_message(event):
         root_mode = True #設為絕對安靜模式
         gameid = ""
         gamemode = False
+        gpttemplate = ""
 
         reply_text = rp.Goodbye()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
     elif message == "!!hello" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
         root_mode = False
+        gpttemplate = ""
 
         reply_text = rp.hello()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
@@ -99,6 +101,7 @@ def handle_message(event):
                 quiet_mode = True #設為安靜模式
                 gamemode = False
                 gameid = ""
+                gpttemplate = ""
 
                 reply_text = up.Goodbye()
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
@@ -106,6 +109,7 @@ def handle_message(event):
             elif message == "!回來" or message == "!hello":
 
                 quiet_mode = False #關閉安靜模式
+                gpttemplate = ""
 
                 reply_text = up.hello()
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
