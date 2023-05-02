@@ -139,9 +139,9 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
             
             # 與gpt3.5連接
-            elif "!gpt" in message :
+            elif "/" in message[0] :
                 # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
-                message = message[4:]
+                message = message[1:]
                 reply_text = ug.gpt3_5(Openai_token,message)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
@@ -205,10 +205,10 @@ def handle_message(event):
                         
                 #鸚鵡
         
-                if quiet_mode == False : 
-                    reply_text = ug.gpt3_5(Openai_token,message)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))     
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
+                # if quiet_mode == False : 
+                #     reply_text = ug.gpt3_5(Openai_token,message)
+                #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))     
+                #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
 
 @line_handler.add(PostbackEvent)
 def handle_postback(event):
