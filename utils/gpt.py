@@ -16,6 +16,7 @@ def gpt3_5(token, message):
                 #
                 )
             # 接收到回覆訊息後，移除換行符號
+            
   reply_msg = response["choices"][0]["text"][response["choices"][0]["text"].index("AI:"):]
 
   reply_msg = reply_msg.replace('AI:','').strip()
