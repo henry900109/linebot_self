@@ -17,7 +17,7 @@ def gpt3_5(token, message):
             # 接收到回覆訊息後，移除換行符號
 
 #   reply_msg = response["choices"][0]["text"].replace('\n','')
-  reply_msg = response["choices"][0]["text"]
+  reply_msg = response["choices"][0]["text"][4:]
   return reply_msg
 
 if __name__ == '__main__':
