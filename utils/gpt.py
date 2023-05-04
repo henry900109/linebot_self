@@ -23,5 +23,21 @@ def gpt3_5(token, message):
 
   return reply_msg
 
+def img(token, message):
+  
+  PROMPT = message
+
+  openai.api_key = token
+
+  response = openai.Image.create(
+    prompt=PROMPT,
+    n=1,
+    size="256x256",
+  )
+
+  return response["data"][0]["url"]
+   
+
 if __name__ == '__main__':
     print(gpt3_5(token="", message="你是誰?"))
+    print(img(token="", message="An eco-friendly computer from the 90s in the style of vapor"))

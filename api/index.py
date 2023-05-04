@@ -191,6 +191,11 @@ def handle_message(event):
                 reply_text = ts.sheet(userid)
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
+            elif "!img" in message :
+                url = ug.img(Openai_token,message[4:])
+                reply_text.append(ImageSendMessage(original_content_url=url,preview_image_url=url))
+                line_bot_api.reply_message(event.reply_token,reply_text)
+                
             else:
 
                 #確認是否在遊戲模式
