@@ -64,175 +64,177 @@ def callback():
 #回應
 @line_handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    try:
+        #設定變數
+        global root_mode, quiet_mode
+        global gamemode, gameid, range_min, range_max, answer,gpttemplate
 
-    #設定變數
-    global root_mode, quiet_mode
-    global gamemode, gameid, range_min, range_max, answer,gpttemplate
+        #訊息
+        message = event.message.text
 
-    #訊息
-    message = event.message.text
+        #使用者ID
+        userid = event.source.user_id
 
-    #使用者ID
-    userid = event.source.user_id
+        # 如果root輸入 "!!quite"，則設定 root_mode 為 True，否則回傳相同訊息
+        if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
+            root_mode = True #設為絕對安靜模式
+            gameid = ""
+            gamemode = False
+            gpttemplate = ""
 
-    # 如果root輸入 "!!quite"，則設定 root_mode 為 True，否則回傳相同訊息
-    if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
-        root_mode = True #設為絕對安靜模式
-        gameid = ""
-        gamemode = False
-        gpttemplate = ""
+            reply_text = rp.Goodbye()
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
-        reply_text = rp.Goodbye()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+        elif message == "!!hello" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
+            root_mode = False
+            gpttemplate = ""
 
-    elif message == "!!hello" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
-        root_mode = False
-        gpttemplate = ""
+            reply_text = rp.hello()
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
-        reply_text = rp.hello()
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-    else:
-        
-        # 如果使用者輸入 "!quite"，則設定 quiet_mode 為 True，否則回傳相同訊息
-        if root_mode == False:
-
-            if message == "!安靜"or message == "!quite":
-
-                quiet_mode = True #設為安靜模式
-                gamemode = False
-                gameid = ""
-                gpttemplate = ""
-
-                reply_text = up.Goodbye()
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-            elif message == "!回來" or message == "!hello":
-
-                quiet_mode = False #關閉安靜模式
-                gpttemplate = ""
-
-                reply_text = up.hello()
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-            elif message == "!introduce":
-                reply_text = ui.interduce()
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-            elif "冰淇淋" in message and userid =="U39ef08913a1aa5a8e5f100399fe9fd2c":
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
-
-            elif "!我要查詢天氣" == message:
-                quick_reply = uwr.area()
-                reply_text = TextSendMessage(text="請選擇區域",quick_reply=quick_reply)
-                line_bot_api.reply_message(event.reply_token, reply_text)
-
-            elif "卓子揚" in message and "@卓子揚" not in message:
-                    # 認主
-                retext = "他是帥哥!!"
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
-
-            #測試模式
-            elif message == "!test":# reply_text = tt.test() #測試用
-                profile = line_bot_api.get_profile(userid)
-                reply_text = tt.profile(profile)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-            # 知道使用者身分
-            elif message == "!whoami":
-                profile = line_bot_api.get_profile(userid)
-                reply_text = uf.profile(profile)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+        else:
             
-            # 與gpt3.5連接
-            elif "/" in message[0] :
-                # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
-                message = message[1:]
-                template = "以下是一個與 AI 助手的對話。AI 助手非常有幫助、有創意、聰明，並且非常友好。\n\nHuman:你好，你是誰?\nAI: 我是你的 AI 助理，請問我能怎麼幫你?\nHuman: " 
-                if gpttemplate != "":
-                    gpttemplate = gpttemplate + message
-                else:
-                    gpttemplate = template + message
-                try:
-                    reply_text = ug.gpt3_5(Openai_token,gpttemplate)
-                    if reply_text != "Error : 無法取得回覆，請稍後再試！":
-                        gpttemplate = "\nAI:" + reply_text + "\nHuman:"
+            # 如果使用者輸入 "!quite"，則設定 quiet_mode 為 True，否則回傳相同訊息
+            if root_mode == False:
+
+                if message == "!安靜"or message == "!quite":
+
+                    quiet_mode = True #設為安靜模式
+                    gamemode = False
+                    gameid = ""
+                    gpttemplate = ""
+
+                    reply_text = up.Goodbye()
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
+                elif message == "!回來" or message == "!hello":
+
+                    quiet_mode = False #關閉安靜模式
+                    gpttemplate = ""
+
+                    reply_text = up.hello()
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
+                elif message == "!introduce":
+                    reply_text = ui.interduce()
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
+                elif "冰淇淋" in message and userid =="U39ef08913a1aa5a8e5f100399fe9fd2c":
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
+
+                elif "!我要查詢天氣" == message:
+                    quick_reply = uwr.area()
+                    reply_text = TextSendMessage(text="請選擇區域",quick_reply=quick_reply)
+                    line_bot_api.reply_message(event.reply_token, reply_text)
+
+                elif "卓子揚" in message and "@卓子揚" not in message:
+                        # 認主
+                    retext = "他是帥哥!!"
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
+
+                #測試模式
+                elif message == "!test":# reply_text = tt.test() #測試用
+                    profile = line_bot_api.get_profile(userid)
+                    reply_text = tt.profile(profile)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-                except:
-                    reply_text == "Error : 無法取得回覆，請稍後再試！"
+
+                # 知道使用者身分
+                elif message == "!whoami":
+                    profile = line_bot_api.get_profile(userid)
+                    reply_text = uf.profile(profile)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-            # 玩遊戲
-            elif message == "!play":
-                gameid = userid
-                reply_text = "猜數字, 1~100\n\n!out 可結束遊戲"
-
-                #開啟遊戲模式
-                gamemode = True
-
-                # 設定猜數字的範圍
-                range_min = 1
-                range_max = 100
-                answer = random.randint(range_min, range_max)
-                Guessnumber.Guseenumder_start(userid)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-            # ( 今天 / 明天 ) 新北市OO區天氣
-            elif message[0] == "!" and "天氣" == message[9:]:
-                    
-                LOCATION_NAME = message[1:]
-                reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-            # 全臺各縣市天氣
-            elif message[0] == "!" and "天氣" == message[4:]:
-                reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
-            elif message == "測試flex":
-                reply_text = tt.flex()
-                line_bot_api.reply_message(event.reply_token, reply_text)
-
-            elif message == "測試sheet":
-                reply_text = ts.sheet(userid)
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-
-            elif "!img" in message :
-                reply_text = []
-                url = ug.img(Openai_token,message[4:])
-                reply_text.append(ImageSendMessage(original_content_url=url,preview_image_url=url))
-                line_bot_api.reply_message(event.reply_token,reply_text)
-
-            else:
-
-                #確認是否在遊戲模式
-                if gamemode == True and gameid == userid:
-
-                    #離開遊戲模式
-                    if message == "!out":
-                        gameid = ""
-                        gamemode = False
-
-                        reply_text = "遊戲結束\n\n答案為 " + str(answer)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
+                
+                # 與gpt3.5連接
+                elif "/" in message[0] :
+                    # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
+                    message = message[1:]
+                    template = "以下是一個與 AI 助手的對話。AI 助手非常有幫助、有創意、聰明，並且非常友好。\n\nHuman:你好，你是誰?\nAI: 我是你的 AI 助理，請問我能怎麼幫你?\nHuman: " 
+                    if gpttemplate != "":
+                        gpttemplate = gpttemplate + message
                     else:
-                        reply_text = Guessnumber.Guessnumber(message,range_min,range_max,answer)
-
-                        #遊戲成功
-                        if reply_text[0] == "f":
-                            gameid = ""
-                            reply_text = reply_text[1:]
-                            gamemode = False
+                        gpttemplate = template + message
+                    try:
+                        reply_text = ug.gpt3_5(Openai_token,gpttemplate)
+                        if reply_text != "Error : 無法取得回覆，請稍後再試！":
+                            gpttemplate = "\nAI:" + reply_text + "\nHuman:"
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-                        
-                #鸚鵡
-        
-                # if quiet_mode == False : 
-                #     reply_text = ug.gpt3_5(Openai_token,message)
-                #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))     
-                #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
+                    except:
+                        reply_text == "Error : 無法取得回覆，請稍後再試！"
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
+                # 玩遊戲
+                elif message == "!play":
+                    gameid = userid
+                    reply_text = "猜數字, 1~100\n\n!out 可結束遊戲"
+
+                    #開啟遊戲模式
+                    gamemode = True
+
+                    # 設定猜數字的範圍
+                    range_min = 1
+                    range_max = 100
+                    answer = random.randint(range_min, range_max)
+                    Guessnumber.Guseenumder_start(userid)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                # ( 今天 / 明天 ) 新北市OO區天氣
+                elif message[0] == "!" and "天氣" == message[9:]:
+                        
+                    LOCATION_NAME = message[1:]
+                    reply_text = uw.weather(WEATHER_API_KEY,LOCATION_NAME)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                # 全臺各縣市天氣
+                elif message[0] == "!" and "天氣" == message[4:]:
+                    reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                elif message == "測試flex":
+                    reply_text = tt.flex()
+                    line_bot_api.reply_message(event.reply_token, reply_text)
+
+                elif message == "測試sheet":
+                    reply_text = ts.sheet(userid)
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
+                elif "!img" in message :
+                    reply_text = []
+                    url = ug.img(Openai_token,message[4:])
+                    reply_text.append(ImageSendMessage(original_content_url=url,preview_image_url=url))
+                    line_bot_api.reply_message(event.reply_token,reply_text)
+
+                else:
+
+                    #確認是否在遊戲模式
+                    if gamemode == True and gameid == userid:
+
+                        #離開遊戲模式
+                        if message == "!out":
+                            gameid = ""
+                            gamemode = False
+
+                            reply_text = "遊戲結束\n\n答案為 " + str(answer)
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
+                        else:
+                            reply_text = Guessnumber.Guessnumber(message,range_min,range_max,answer)
+
+                            #遊戲成功
+                            if reply_text[0] == "f":
+                                gameid = ""
+                                reply_text = reply_text[1:]
+                                gamemode = False
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                            
+                    #鸚鵡
+            
+                    # if quiet_mode == False : 
+                    #     reply_text = ug.gpt3_5(Openai_token,message)
+                    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))     
+                    #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
+    except:
+        reply_text == "Error : 系統忙碌中，請稍後再試！"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 @line_handler.add(PostbackEvent)
 def handle_postback(event):
     postback_data = event.postback.data
