@@ -160,7 +160,7 @@ def handle_message(event):
                             gpttemplate = "\nAI:" + reply_text + "\nHuman:"
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                     except:
-                        reply_text == "Error(1) : 無法取得回覆，請稍後再試！"
+                        reply_text = "Error(1) : 無法取得回覆，請稍後再試！"
                         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                 # 玩遊戲
