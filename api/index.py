@@ -14,6 +14,7 @@ import Game.Guessnumber as Guessnumber
 import test.test as tt
 import test.sheet as ts
 import random
+import requests
 import os
 import time
 
@@ -232,7 +233,7 @@ def handle_message(event):
                     #     reply_text = ug.gpt3_5(Openai_token,message)
                     #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))     
                     #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
-    except:
+    except requests.exceptions.ReadTimeout:
         reply_text == "Error : 系統忙碌中，請稍後再試！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 @line_handler.add(PostbackEvent)
