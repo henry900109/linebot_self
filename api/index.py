@@ -234,7 +234,7 @@ def handle_message(event):
                     #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))     
                     #     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
     except requests.exceptions.ReadTimeout:
-        reply_text == "Error : 系統忙碌中，請稍後再試！"
+        reply_text = "Error : 系統忙碌中，請稍後再試！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 @line_handler.add(PostbackEvent)
 def handle_postback(event):
