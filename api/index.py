@@ -76,7 +76,7 @@ def handle_message(event):
         userid = event.source.user_id
 
         # 如果root輸入 "!!quite"，則設定 root_mode 為 True，否則回傳相同訊息
-        message = message.replace("！","!",True) if "！" in (message) else (message) # [user[2:5]] ex:新北市
+        message = message.replace("！","!",True) if "！" in (message) else (message) # ！換 !
         if message == "!!quite" and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f":
             root_mode = True #設為絕對安靜模式
             gameid = ""
@@ -116,7 +116,7 @@ def handle_message(event):
                     reply_text = up.hello()
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
-                elif message == "!introduce":
+                elif message == "!introduce" or message == "！introduce":
                     reply_text = ui.interduce()
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
