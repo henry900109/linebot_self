@@ -17,7 +17,7 @@ def gpt3_5(token, message,timeout = 10):
                 )
             # 接收到回覆訊息後，移除換行符號
   if time.time() - start_time >= timeout:
-     return 'Error : 無法取得回覆，請稍後再試！'
+     return 'Error(0) : 無法取得回覆，請稍後再試！'
   else:
     try:
       reply_msg = response["choices"][0]["text"][response["choices"][0]["text"].index("AI:"):]
