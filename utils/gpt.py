@@ -19,14 +19,17 @@ def gpt3_5(token, message,timeout = 10):
   if time.time() - start_time >= timeout:
      return 'Error : 無法取得回覆，請稍後再試！'
   else:
-    reply_msg = response["choices"][0]["text"][response["choices"][0]["text"].index("AI:"):]
+    try:
+      reply_msg = response["choices"][0]["text"][response["choices"][0]["text"].index("AI:"):]
 
-    reply_msg = reply_msg.replace('AI:','').strip()
+      reply_msg = reply_msg.replace('AI:','').strip()
 
-    return reply_msg
+      return reply_msg
+    except:
+       return 'Error : 無法取得回覆，請稍後再試！'
 
-def img(token, message):
-  
+def img(token, message,timeout = 10):
+  start_time = time.time()
   PROMPT = message
 
   openai.api_key = token
@@ -36,8 +39,10 @@ def img(token, message):
     n=1,
     size="256x256",
   )
-
-  return response["data"][0]["url"]
+  if time.time() - start_time >= timeout:
+     return 'Error : 無法取得回覆，請稍後再試！'
+  else:
+     return response["data"][0]["url"]
    
 
 if __name__ == '__main__':
