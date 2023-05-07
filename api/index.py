@@ -15,6 +15,7 @@ import test.test as tt
 import test.sheet as ts
 import random
 import os
+import time
 
 
 #設置環境變數
@@ -152,10 +153,14 @@ def handle_message(event):
                     gpttemplate = gpttemplate + message
                 else:
                     gpttemplate = template + message
-                reply_text = ug.gpt3_5(Openai_token,gpttemplate)
-                if reply_text != "Error : 無法取得回覆，請稍後再試！":
-                    gpttemplate = "\nAI:" + reply_text + "\nHuman:"
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                try:
+                    reply_text = ug.gpt3_5(Openai_token,gpttemplate)
+                    if reply_text != "Error : 無法取得回覆，請稍後再試！":
+                        gpttemplate = "\nAI:" + reply_text + "\nHuman:"
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                except:
+                    reply_text == "Error : 無法取得回覆，請稍後再試！"
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
             # 玩遊戲
             elif message == "!play":
