@@ -152,6 +152,7 @@ def handle_message(event):
                 if gpttemplate != "":
                     gpttemplate = gpttemplate + message
                 else:
+                    reply_text = ug.gpt3_5(Openai_token,template + '你好')
                     gpttemplate = template + message
                 try:
                     reply_text = ug.gpt3_5(Openai_token,gpttemplate)
