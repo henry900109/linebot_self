@@ -112,7 +112,6 @@ def handle_message(event):
 
                     quiet_mode = False #關閉安靜模式
                     gpttemplate = ""
-
                     reply_text = up.hello()
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
