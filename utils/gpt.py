@@ -36,6 +36,7 @@ def img(token, message,timeout = 10):
 
   response = openai.Image.create(
     prompt=PROMPT,
+    model="image-alpha-001", 
     n=1,
     size="256x256",
   )
