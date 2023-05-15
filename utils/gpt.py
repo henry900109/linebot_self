@@ -38,6 +38,7 @@ def img(token, message,timeout = 10):
     prompt=PROMPT,
     model="image-alpha-001", 
     n=1,
+    temperature=0.5,
     size="256x256",
   )
   if time.time() - start_time >= timeout:
