@@ -14,5 +14,5 @@ def notify(message):
     requests.post("https://notify-api.line.me/api/notify",headers = headers, data = data)
     # headers = headers, data = data, files = files)
 if __name__ == '__main__':
-    print(notify("我是卓子揚"))
+    print(notify("helloworld"))
         
