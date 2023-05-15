@@ -17,8 +17,9 @@
 --- | ---
 `!hello` | 可喚醒機器人
 `!quite` | 靜音模式
-`!XX市(縣)天氣` |提供該縣市的天氣預報
-`!OO區天氣` | 提供該區的天氣預報
+`!今(明)天XX市(縣)XX區(鄉、鎮、市)天氣` |提供該縣市的天氣預報
+`!img + 指令` | 提供該指令圖片
+`/ + 指令` | 提供該指令問結果 
 `!whoami` | 可確認自己身分
 
 ### 查詢指令
@@ -35,3 +36,4 @@
 `LINE_CHANNEL_SECRET` | LINE 的 [channel secret]
 `weather_api` | 中央氣象局的 的 [API]
 `line_notify_token` | LINE 的 [notify_API]
+`Open_api` | OpenAI 的 [API]
