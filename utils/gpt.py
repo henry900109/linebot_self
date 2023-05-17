@@ -1,5 +1,7 @@
 import openai
 import time
+from translate import Translator
+
 def gpt3_5(token, message,timeout = 10):
 
   openai.api_key = token
@@ -27,10 +29,18 @@ def gpt3_5(token, message,timeout = 10):
       return reply_msg
     except:
        return 'Error : 無法取得回覆，請稍後再試！'
+      
+def translate(message):
+  
+  translator = Translator(to_lang="en", from_lang="zh")
+  text = message
+  translation = translator.translate(text)
+#   print(translation)
+  return translation
 
 def img(token, message,timeout = 10):
   start_time = time.time()
-  PROMPT = message
+  PROMPT = translate(message) 
 
   openai.api_key = token
 
