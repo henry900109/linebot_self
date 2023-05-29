@@ -115,6 +115,25 @@ def handle_message(event):
                     gpttemplate = ""
                     reply_text = up.hello()
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+                    
+                # 與gpt3.5連接
+                elif "/" in message[0] :
+                    # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
+                    message = message[1:]
+                    template = "以下是一個與 AI 助手的對話。AI 助手非常有幫助、有創意、聰明，並且非常友好。\n\nHuman:你好，你是誰?\nAI: 我是你的 AI 助理，請問我能怎麼幫你?\nHuman: " 
+                    if gpttemplate != "":
+                        gpttemplate = gpttemplate + message
+                    else:
+                        gpttemplate = template + message
+                    try:
+                        reply_text = ug.gpt3_5(Openai_token,gpttemplate)
+                        if reply_text != "Error(0) : 無法取得回覆，請稍後再試！":
+                            gpttemplate = "\nAI:" + reply_text + "\nHuman:"
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                    except:
+                        reply_text = "Error(1) : 無法取得回覆，請稍後再試！"
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+
 
                 elif message == "!introduce" or message == "！introduce":
                     reply_text = ui.interduce()
@@ -145,24 +164,7 @@ def handle_message(event):
                     reply_text = uf.profile(profile)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                 
-                # 與gpt3.5連接
-                elif "/" in message[0] :
-                    # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
-                    message = message[1:]
-                    template = "以下是一個與 AI 助手的對話。AI 助手非常有幫助、有創意、聰明，並且非常友好。\n\nHuman:你好，你是誰?\nAI: 我是你的 AI 助理，請問我能怎麼幫你?\nHuman: " 
-                    if gpttemplate != "":
-                        gpttemplate = gpttemplate + message
-                    else:
-                        gpttemplate = template + message
-                    try:
-                        reply_text = ug.gpt3_5(Openai_token,gpttemplate)
-                        if reply_text != "Error(0) : 無法取得回覆，請稍後再試！":
-                            gpttemplate = "\nAI:" + reply_text + "\nHuman:"
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-                    except:
-                        reply_text = "Error(1) : 無法取得回覆，請稍後再試！"
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
-
+                
                 # 玩遊戲
                 elif message == "!play":
                     gameid = userid
