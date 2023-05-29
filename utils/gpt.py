@@ -2,7 +2,7 @@ import openai
 import time
 from translate import Translator
 
-def gpt3_5(token, message,timeout = 8):
+def gpt3_5(token, message,timeout = 9.5):
 
   openai.api_key = token
   start_time = time.time()
