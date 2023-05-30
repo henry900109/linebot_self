@@ -54,7 +54,7 @@ def img(token, message,timeout = 9):
 #   if time.time() - start_time >= timeout:
 #      return 'Error : 無法取得回覆，請稍後再試！'
 #   else:
-   return response["data"][0]["url"]
+ return response["data"][0]["url"]
    
 
 if __name__ == '__main__':
