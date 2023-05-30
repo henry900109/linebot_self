@@ -138,8 +138,6 @@ def handle_message(event):
                     reply_text = ui.interduce()
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
-#                 elif "冰淇淋" in message and userid =="U39ef08913a1aa5a8e5f100399fe9fd2c":
-#                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
 
                 elif "!我要查詢天氣" == message:
                     quick_reply = uwr.area()
