@@ -117,7 +117,7 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                     
                 # 與gpt3.5連接
-                elif "/" in message[0] :
+                elif "/" == message[0] :
                     # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
                     message = message[1:]
                     template = "以下是一個與 AI 助手的對話。AI 助手非常有幫助、有創意、聰明，並且非常友好。\n\nHuman:你好，你是誰?\nAI: 我是你的 AI 助理，請問我能怎麼幫你?\nHuman: " 
