@@ -5,7 +5,7 @@ from translate import Translator
 def gpt3_5(token, message,timeout = 9):
 
   openai.api_key = token
-  start_time = time.time()
+#   start_time = time.time()
   response = openai.Completion.create(
                 model='text-davinci-003',
                 prompt=message,
@@ -18,17 +18,18 @@ def gpt3_5(token, message,timeout = 9):
                 #
                 )
             # 接收到回覆訊息後，移除換行符號
-  if time.time() - start_time >= timeout:
-     return 'Error(0) : 無法取得回覆，請稍後再試！'
-  else:
-    try:
-      reply_msg = response["choices"][0]["text"][response["choices"][0]["text"].index("AI:"):]
+#   if time.time() - start_time >= timeout:
+#      return 'Error(0) : 無法取得回覆，請稍後再試！'
+#   else:
+  try:
+    reply_msg = response["choices"][0]["text"][response["choices"][0]["text"].index("AI:"):]
 
-      reply_msg = reply_msg.replace('AI:','').strip()
+    reply_msg = reply_msg.replace('AI:','').strip()
 
-      return reply_msg
-    except:
-       return 'Error : 無法取得回覆，請稍後再試！'
+    return reply_msg
+  
+  except:
+     return 'Error : 無法取得回覆，請稍後再試！'
       
 def translate(message):
   
@@ -38,8 +39,8 @@ def translate(message):
 #   print(translation)
   return translation
 
-def img(token, message,timeout = 10):
-  start_time = time.time()
+def img(token, message,timeout = 9):
+#   start_time = time.time()
   PROMPT = translate(message) 
 
   openai.api_key = token
@@ -50,10 +51,10 @@ def img(token, message,timeout = 10):
     n=1,
     size="256x256",
   )
-  if time.time() - start_time >= timeout:
-     return 'Error : 無法取得回覆，請稍後再試！'
-  else:
-     return response["data"][0]["url"]
+#   if time.time() - start_time >= timeout:
+#      return 'Error : 無法取得回覆，請稍後再試！'
+#   else:
+   return response["data"][0]["url"]
    
 
 if __name__ == '__main__':
