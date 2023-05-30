@@ -130,7 +130,7 @@ def handle_message(event):
                         if reply_text != "Error(0) : 無法取得回覆，請稍後再試！":
                             gpttemplate = "\nAI:" + reply_text + "\nHuman:"
                     except:
-                        reply_text = "Error(1) : 無法取得回覆，請稍後再試！"
+                        reply_text = "Error(1) : 無法取得回覆，請稍後再試！( 或輸入 !quite 重啟 )"
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
 
@@ -138,8 +138,8 @@ def handle_message(event):
                     reply_text = ui.interduce()
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
-                elif "冰淇淋" in message and userid =="U39ef08913a1aa5a8e5f100399fe9fd2c":
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
+#                 elif "冰淇淋" in message and userid =="U39ef08913a1aa5a8e5f100399fe9fd2c":
+#                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text="不可以!!!"))
 
                 elif "!我要查詢天氣" == message:
                     quick_reply = uwr.area()
@@ -152,10 +152,10 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=retext))
 
                 #測試模式
-                elif message == "!test":# reply_text = tt.test() #測試用
-                    profile = line_bot_api.get_profile(userid)
-                    reply_text = tt.profile(profile)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+#                 elif message == "!test":# reply_text = tt.test() #測試用
+#                     profile = line_bot_api.get_profile(userid)
+#                     reply_text = tt.profile(profile)
+#                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
                 # 知道使用者身分
                 elif message == "!whoami":
@@ -191,13 +191,13 @@ def handle_message(event):
                     reply_text = uw.get_country_weather(WEATHER_API_KEY,message)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
-                elif message == "測試flex":
-                    reply_text = tt.flex()
-                    line_bot_api.reply_message(event.reply_token, reply_text)
+#                 elif message == "測試flex":
+#                     reply_text = tt.flex()
+#                     line_bot_api.reply_message(event.reply_token, reply_text)
 
-                elif message == "測試sheet":
-                    reply_text = ts.sheet(userid)
-                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+#                 elif message == "測試sheet":
+#                     reply_text = ts.sheet(userid)
+#                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
                 elif "!img" in message :
                     reply_text = []
