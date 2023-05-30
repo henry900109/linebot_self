@@ -40,7 +40,7 @@ def translate(message):
   return translation
 
 def img(token, message,timeout = 9):
-#   start_time = time.time()
+  # start_time = time.time()
   PROMPT = translate(message) 
 
   openai.api_key = token
@@ -51,10 +51,10 @@ def img(token, message,timeout = 9):
     n=1,
     size="256x256",
   )
-#   if time.time() - start_time >= timeout:
-#      return 'Error : 無法取得回覆，請稍後再試！'
-#   else:
- return response["data"][0]["url"]
+  # if time.time() - start_time >= timeout:
+  #    return 'Error : 無法取得回覆，請稍後再試！'
+  # else:
+  return response["data"][0]["url"]
    
 
 if __name__ == '__main__':
