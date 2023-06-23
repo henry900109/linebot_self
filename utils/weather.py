@@ -32,7 +32,7 @@ def weather(WEATHER_API_KEY,user):
 
     now = datetime.now()
 
-    date_code = {'今天':now,'明天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=1)}
+    date_code = {'今天':now,'明天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=1),'後天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=2)}
    
     weather_apikey = WEATHER_API_KEY
     
