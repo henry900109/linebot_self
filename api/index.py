@@ -141,7 +141,7 @@ def handle_message(event):
                     if gpttemplate != "":
                         gpttemplate = gpttemplate.append({"role": "user", "content": message})
                     else:
-                        gpttemplate = [{"role": "assistant", "content": "我是個 AI 助手，非常有幫助、有創意、聰明，並且非常友好"},{"role": "user", "content": ""}]
+                        gpttemplate = [{"role": "assistant", "content": "我是個 AI 助手，非常有幫助、有創意、聰明，並且非常友好"},{"role": "user", "content": message}]
 
                     reply_text = ug.gpt4(Openai_token,gpttemplate)
                     try:
