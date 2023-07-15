@@ -9,7 +9,7 @@ def gpt3_5(token, message,timeout = 9):
   response = openai.Completion.create(
                 model='gpt-3.5-turbo-16k',
                 prompt=message,
-                max_tokens=128,
+                max_tokens=80,
                 temperature=0.9,
                 frequency_penalty=0,
                 #預設的 OPENAI_FREQUENCY_PENALTY 為 0.5，OPENAI_PRESENCE_PENALTY 為 0.0
