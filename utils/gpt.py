@@ -41,7 +41,7 @@ def gpt4(token, message,timeout = 9):
       model="gpt-3.5-turbo-16k",
       messages = message,
       temperature=0.2,
-      max_tokens=128,
+      max_tokens=1024,
       frequency_penalty=0.0,
       stop=[" Human:", " AI:"]
                 #
