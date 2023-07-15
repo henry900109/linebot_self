@@ -120,18 +120,34 @@ def handle_message(event):
                 elif "/" == message[0] :
                     # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
                     message = message[1:]
-                    # template = "以下是一個與 AI 助手的對話。AI 助手非常有幫助、有創意、聰明，並且非常友好。\n\nHuman:你好，你是誰?\nAI: 我是你的 AI 助理，請問我能怎麼幫你?\nHuman: " 
-                    template = ""
+                    template = "以下是一個與 AI 助手的對話。AI 助手非常有幫助、有創意、聰明，並且非常友好。\n\nHuman:你好，你是誰?\nAI: 我是你的 AI 助理，請問我能怎麼幫你?\nHuman: " 
                     if gpttemplate != "":
                         gpttemplate = gpttemplate + message
                     else:
                         gpttemplate = template + message
 
+                    try:
+                        reply_text = ug.gpt3_5(Openai_token,gpttemplate)
+                        if reply_text != "Error : 無法取得回覆，請稍後再試！":
+                            gpttemplate = "\nAI:" + reply_text + "\nHuman:"
+                    except:
+                        reply_text = "Error(1) : 無法取得回覆，請稍後再試！\n( 或輸入 !quite 重啟 )"
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
+                
+                elif "//" == message[:1] :
+                    # and userid == "Uc3e869190fa11d67f2a1ff4b65070e4f"
+                    message = message[2:]
+
+                    if gpttemplate != "":
+                        gpttemplate = gpttemplate.append({"role": "user", "content": message})
+                    else:
+                        gpttemplate = [{"role": "user", "content": ""}]
+
                     reply_text = ug.gpt4(Openai_token,gpttemplate)
                     # try:
                     #     reply_text = ug.gpt4(Openai_token,gpttemplate)
                     #     if reply_text != "Error : 無法取得回覆，請稍後再試！":
-                    #         gpttemplate = "\nAI:" + reply_text + "\nHuman:"
+                    #         gpttemplate = gpttemplate.append({"role": "AI", "content": reply_text})
                     # except:
                     #     reply_text = "Error(1) : 無法取得回覆，請稍後再試！\n( 或輸入 !quite 重啟 )"
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
