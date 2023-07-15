@@ -144,12 +144,12 @@ def handle_message(event):
                         gpttemplate = [{"role": "user", "content": ""}]
 
                     reply_text = ug.gpt4(Openai_token,gpttemplate)
-                    # try:
-                    #     reply_text = ug.gpt4(Openai_token,gpttemplate)
-                    #     if reply_text != "Error : 無法取得回覆，請稍後再試！":
-                    #         gpttemplate = gpttemplate.append({"role": "AI", "content": reply_text})
-                    # except:
-                    #     reply_text = "Error(1) : 無法取得回覆，請稍後再試！\n( 或輸入 !quite 重啟 )"
+                    try:
+                        reply_text = ug.gpt4(Openai_token,gpttemplate)
+                        if reply_text != "Error : 無法取得回覆，請稍後再試！":
+                            gpttemplate = gpttemplate.append({"role": "AI", "content": reply_text})
+                    except:
+                        reply_text = "Error(1) : 無法取得回覆，請稍後再試！\n( 或輸入 !quite 重啟 )"
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
 
 
