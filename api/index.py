@@ -126,7 +126,7 @@ def handle_message(event):
                     else:
                         gpttemplate = template + message
                     try:
-                        reply_text = ug.gpt3_5(Openai_token,gpttemplate)
+                        reply_text = ug.gpt4(Openai_token,gpttemplate)
                         if reply_text != "Error : 無法取得回覆，請稍後再試！":
                             gpttemplate = "\nAI:" + reply_text + "\nHuman:"
                     except:

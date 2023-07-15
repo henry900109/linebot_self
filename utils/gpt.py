@@ -7,7 +7,7 @@ def gpt3_5(token, message,timeout = 9):
   openai.api_key = token
 #   start_time = time.time()
   response = openai.Completion.create(
-                model='gpt4',
+                model='text-davinci-003',
                 prompt=message,
                 max_tokens=80,
                 temperature=0.9,
@@ -31,6 +31,35 @@ def gpt3_5(token, message,timeout = 9):
   except:
      return 'Error : 無法取得回覆，請稍後再試！'
       
+
+def gpt4(token, message,timeout = 9):
+
+  openai.api_key = token
+#   start_time = time.time()
+  response = openai.ChatCompletion.create(
+      model="gpt-4",
+      messages = message,
+      temperature=0.2,
+      max_tokens=80,
+      frequency_penalty=0.0,
+      stop=[" Human:", " AI:"]
+                #
+  )
+            # 接收到回覆訊息後，移除換行符號
+#   if time.time() - start_time >= timeout:
+#      return 'Error(0) : 無法取得回覆，請稍後再試！'
+#   else:
+  try:
+    reply_msg = response["choices"][0]["text"][response["choices"][0]["text"].index("AI:"):]
+
+    reply_msg = reply_msg.replace('AI:','').strip()
+
+    return reply_msg
+  
+  except:
+     return 'Error : 無法取得回覆，請稍後再試！'
+
+
 def translate(message):
   
   translator = Translator(to_lang="en", from_lang="zh")
