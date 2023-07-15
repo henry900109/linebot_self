@@ -141,13 +141,13 @@ def handle_message(event):
                     if gpttemplate != "":
                         gpttemplate = gpttemplate.append({"role": "user", "content": message})
                     else:
-                        gpttemplate = [{"role": "user", "content": ""}]
+                        gpttemplate = [{"role": "assistant", "content": "我是個 AI 助手，非常有幫助、有創意、聰明，並且非常友好"},{"role": "user", "content": ""}]
 
                     reply_text = ug.gpt4(Openai_token,gpttemplate)
                     try:
                         reply_text = ug.gpt4(Openai_token,gpttemplate)
                         if reply_text != "Error : 無法取得回覆，請稍後再試！":
-                            gpttemplate = gpttemplate.append({"role": "AI", "content": reply_text})
+                            gpttemplate = gpttemplate.append({"role": "assistant", "content": reply_text})
                     except:
                         reply_text = "Error(1) : 無法取得回覆，請稍後再試！\n( 或輸入 !quite 重啟 )"
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
