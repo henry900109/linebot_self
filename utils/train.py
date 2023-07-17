@@ -65,39 +65,49 @@ def sche_time(start, end):
     # 過濾過期時刻表
     filter_pa = f"StopTimes/any(st: st/StationID eq \'{start}\' and st/DepartureTime ge \'{time}\')"
 
-    # 取得前5筆資料
-    top_par = 5
+    # 取得前3筆資料
+    top_par = 3
 
     url = f'https://tdx.transportdata.tw/api/basic/v3/Rail/TRA/DailyTrainTimetable/OD/{start}/to/{end}/{date}?%24filter={filter_pa}&%24top={top_par}&%24format=JSON'
 
     data_file = json.loads(check_success(url).text)
-    fare_da = find_Fare(start, end)['ODFares']
+    fare_data = find_Fare(start, end)['ODFares']
 
-    for i in range(top_par):
-        Info = data_file['TrainTimetables'][i]['TrainInfo']
+    try:
+        for i in range(top_par):
+            Info = data_file['TrainTimetables'][i]['TrainInfo']
 
-        Direction = Info['Direction']
-        Tra_Type = Info['TrainTypeCode']
-        for j in range(len(fare_da)):
-            fare_Train = fare_da[j]['TrainType']
-            fare_Direction = fare_da[j]['Direction']
-            if Direction == fare_Direction and int(Tra_Type) == fare_Train:
-                fare = fare_da[j]['Fares'][0]['Price']
+            Direction = Info['Direction']
+            Tra_Type = Info['TrainTypeCode']
+            Tra_Type_Name = Info['TrainTypeName']['Zh_tw']
+            TrainNo = Info['TrainNo']
+            Start_Sta_Na = Info['StartingStationName']['Zh_tw']
+            End_Sta_Na = Info['EndingStationName']['Zh_tw']
+            
+            StopTimes = data_file['TrainTimetables'][i]['StopTimes']
+            start_Dep = StopTimes[0]['DepartureTime']
+            destn_Arr = StopTimes[1]['ArrivalTime']
 
-        Tra_Type_Name = Info['TrainTypeName']['Zh_tw']
-        TrainNo = Info['TrainNo']
-        Start_Sta_Na = Info['StartingStationName']['Zh_tw']
-        End_Sta_Na = Info['EndingStationName']['Zh_tw']
+            # 抓取相同車次及方向
+            filtered_timetables = filter(lambda x:x['Direction'] == Direction and x['TrainType'] == int(Tra_Type), fare_data)
+            for price in filtered_timetables:
+                fare = price['Fares'][0]['Price']
 
-        StopTimes = data_file['TrainTimetables'][i]['StopTimes']
-        start_Dep = StopTimes[0]['DepartureTime']
-        destn_Arr = StopTimes[1]['ArrivalTime']
-        print(f"{Tra_Type_Name}{TrainNo} ({Start_Sta_Na} → {End_Sta_Na}) ")
-        print(f'{start_Dep} {start_sta} → {destn_Arr} {destn_sta}')
-        print(f'票價：${fare}')
-        print()
+            print(f"{Tra_Type_Name}{TrainNo} ({Start_Sta_Na} → {End_Sta_Na}) ")
+            print(f'{start_Dep} {start_sta} → {destn_Arr} {destn_sta}')
+            print(f'成人票價：${fare}')
+            print()
 
-    return
+#             respone =f"""
+# {Tra_Type_Name}{TrainNo} ({Start_Sta_Na} → {End_Sta_Na}) 
+# {start_Dep} {start_sta} → {destn_Arr} {destn_sta}
+# 成人票價：${fare}    
+#             """
+            
+    except:
+        print('目前沒有更多車次')
+
+    return 
 
 
 def real_time():
@@ -132,13 +142,14 @@ def main(user):
     start_id = search_sta_id(start_sta)
     print('終點：' + destn_sta)
     destn_id = search_sta_id(destn_sta)
+    print()
 
     sche_time(start_id, destn_id)
 
 
 
-app_id = 'Your_Id'
-app_key = 'Your_Key'
+app_id = '409170177-a68f40a8-d82a-4f84'
+app_key = '95b175d8-ac70-48da-9a2f-c65c26011bd7'
 
 auth_url = "https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token"
 
