@@ -10,7 +10,7 @@ import utils.polite as up
 import utils.proflie as uf
 import utils.gpt    as ug
 import root.polite as rp
-# import utils.dollar as ud
+import utils.dollar as ud
 import Game.Guessnumber as Guessnumber
 # import test.test as tt
 # import test.sheet as ts
