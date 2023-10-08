@@ -11,6 +11,7 @@ import utils.proflie as uf
 import utils.gpt    as ug
 import root.polite as rp
 import Game.Guessnumber as Guessnumber
+import utils.dollar as ud
 # import test.test as tt
 # import test.sheet as ts
 import random
@@ -222,6 +223,10 @@ def handle_message(event):
                     reply_text.append(ImageSendMessage(original_content_url=url,preview_image_url=url))
                     line_bot_api.reply_message(event.reply_token,reply_text)
 
+                elif message == "!youtube":
+                    reply_text = ud.UAH2TWD()
+                    line_bot_api.reply_message(event.reply_token,reply_text)
+                    
                 else:
 
                     #確認是否在遊戲模式
