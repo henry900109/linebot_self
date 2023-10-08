@@ -225,7 +225,7 @@ def handle_message(event):
 
                 elif message == "!youtube":
                     reply_text = ud.UAH2TWD()
-                    line_bot_api.reply_message(event.reply_token,reply_text)
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
 
                 else:
 
