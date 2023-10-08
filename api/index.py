@@ -10,8 +10,8 @@ import utils.polite as up
 import utils.proflie as uf
 import utils.gpt    as ug
 import root.polite as rp
-import Game.Guessnumber as Guessnumber
 import utils.dollar as ud
+import Game.Guessnumber as Guessnumber
 # import test.test as tt
 # import test.sheet as ts
 import random
@@ -226,7 +226,7 @@ def handle_message(event):
                 elif message == "!youtube":
                     reply_text = ud.UAH2TWD()
                     line_bot_api.reply_message(event.reply_token,reply_text)
-                    
+
                 else:
 
                     #確認是否在遊戲模式
