@@ -44,7 +44,7 @@ def weather(WEATHER_API_KEY,user):
     
     element_name = "T,Wx,PoP6h,AT"
 
-    url = f'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&locationName={user[5:-2]}&elementName={element_name}'
+    url = f'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&locationName={user[5:-2]}&elementName={element_name}'
    
     response = requests.get(url)
    
