@@ -36,9 +36,9 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
             Inuput2 = attributes[InuputAttributes2][mothed]
             Max = (set(Inuput1[1.6]).intersection(set(Inuput2[1.6])))
             one = (set(Inuput1[1.6]).intersection(set(Inuput2[0.6])).union(set(Inuput1[0.6]).intersection(set(Inuput2[1.6]))))
-            onesix = (set(Inuput1[1.6]).union(set(Inuput2[1.6]))).difference(Max).difference(one)
-            sixsix = (set(Inuput1[0.6]).intersection(set(Inuput2[0.6]))).union(set(Inuput1[0.3]).union(set(Inuput2[0.3])))
-            six = set(Inuput1[0.6]).union(set(Inuput2[0.6])).difference(sixsix).difference(one)
+            six = set(Inuput1[0.6]).union(set(Inuput2[0.6])).difference((set(Inuput1[0.6]).intersection(set(Inuput2[0.6]))).union(set(Inuput1[0.3]).union(set(Inuput2[0.3])))).difference(one).union(set(Inuput1[0.3]).union(set(Inuput2[0.3])).intersection((set(Inuput1[1.6]).union(set(Inuput2[1.6]))).difference(Max).difference(one)))
+            sixsix = (set(Inuput1[0.6]).intersection(set(Inuput2[0.6]))).union(set(Inuput1[0.3]).union(set(Inuput2[0.3]))).difference(six)
+            onesix = (set(Inuput1[1.6]).union(set(Inuput2[1.6]))).difference(Max).difference(one).difference(six)
             if "" in sixsix:
                 sixsix.remove("")
             if not Max:
