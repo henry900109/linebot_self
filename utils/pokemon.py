@@ -5,7 +5,7 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
     InuputAttributes = InuputAttributes.replace("妖","妖精")
     name = ["一般","格鬥","毒","地面","飛行","蟲","岩石","幽靈","鋼","火","水","電","草","冰","超能","龍","惡","妖精"]
     attributes = {
-        "一般" :  {"restraint" : {0.6 : ["岩石","鋼"],0.3: ["幽靈"]},"suppress" : { 1.6 : ["格鬥"], 0.3 : ["幽靈"]}},
+        "一般" :  {"restraint" : {1.6 : [""],0.6 : ["岩石","鋼"],0.3: ["幽靈"]},"suppress" : { 1.6 : ["格鬥"], 0.6 : [""], 0.3 : ["幽靈"]}},
         "格鬥" :  {"restraint" : {1.6 : ["一般","鋼","冰","惡","岩石"], 0.6 : ["毒","飛行","蟲","超能","妖精"],0.3:["幽靈"]},"suppress" : {1.6 : ["飛行","超能","妖精"], 0.6 : ["蟲","岩石","惡"], 0.3 : [""]}},
         "毒"   :  {"restraint" : {1.6 : ["草","妖精"], 0.6 : ["毒","地面","岩石","幽靈"], 0.3 :["鋼"] },"suppress" : {1.6 : ["地面","超能"], 0.6 : ["格鬥","毒","蟲","草","妖精"], 0.3 : [""]}},
         "地面" :  {"restraint" : {1.6 : ["鋼","火","電"], 0.6:["蟲","草"], 0.3:["飛行"]},"suppress" : {1.6 : ["水","草","冰"], 0.6 : ["毒","岩石"], 0.3 : ["電"]}},
@@ -53,12 +53,18 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
         except:
             Inuput1 = attributes[InuputAttributes][mothed]
             sixsix = Inuput1[0.3]
+            six = Inuput1[0.6]
             if sixsix[0] == "":
                 sixsix = None
-            output = " 1.6 : " + str(Inuput1[1.6])  + " \n 0.6 : " + str(Inuput1[0.6]) +  " \n 0.3 : " + str(sixsix)
+            elif six[0] == "":
+                six = None
+            output = " 1.6 : " + str(Inuput1[1.6])  + " \n 0.6 : " + str(six) +  " \n 0.3 : " + str(sixsix)
     else:
+        Max = Inuput1[1.6]
+        if Max[0] == "":
+            Max = None
         Inuput1 = attributes[InuputAttributes][mothed]
-        output = "克制: " + str(Inuput1[1.6])  + "  \n0.6 倍: " + str(Inuput1[0.6]) +  "  \n0.3 倍: " + str(Inuput1[0.3])
+        output = "克制: " + str(Max)  + "  \n0.6 倍: " + str(Inuput1[0.6]) +  "  \n0.3 倍: " + str(Inuput1[0.3])
     
     output = output.replace("[","").replace("]","").replace("'","").replace("{","").replace("}","")
 
