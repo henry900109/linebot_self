@@ -61,7 +61,7 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
         except:
             Inuput1 = attributes[InuputAttributes][mothed]
             sixsix = Inuput1[0.3]
-            if sixsix[0] == "":
+            if not sixsix:
                 sixsix = None
             output = " 1.6 : " + str(Inuput1[1.6])  + " , 0.6 : " + str(Inuput1[0.6]) +  " , 0.3 : " + str(sixsix)
     else:
