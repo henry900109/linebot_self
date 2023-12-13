@@ -77,3 +77,11 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
     output = output.replace("[","").replace("]","").replace("'","").replace("{","").replace("}","")
 
     return output
+    
+def attr(name):
+    jsonFile = open('attr.json','r')
+    data = jsonFile.read()
+    data = json.JSONDecoder().decode(data)
+    for item  in data.keys():
+        if name in item:
+            return item+" " +data[item]
