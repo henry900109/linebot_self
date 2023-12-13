@@ -1,3 +1,7 @@
+import requests
+from bs4 import BeautifulSoup
+import json
+
 def Attributes_Table(InuputAttributes,mothed = "suppress"):
 # restraint 克制 ,suppress 被克制 ,Reduce damage 扛傷
     InuputAttributes = InuputAttributes.replace("系","")
@@ -82,9 +86,19 @@ def attr(name):
     if " " == name:
         name = name[1:]
     path = r'/var/task/docs/attr.json'
-    jsonFile = open(path,'r')
-    data = jsonFile.read()
-    data = json.JSONDecoder().decode(data)
-    for item  in data.keys():
+    try:
+        jsonFile = open(path,'r')
+        data = jsonFile.read()
+        data = json.JSONDecoder().decode(data)
+    except:
+        url = "https://twpkinfo.com/PokemonSkill.aspx"
+        html = requests.get(url)
+        soup=BeautifulSoup(html.text,"html.parser")
+        result = soup.find_all(class_= "name")
+        result = result[3:]
+        data = {}
+        for i in range(0,len(result),3):
+            data[str(result[i].getText())] = result[i+2].getText()
+    for item in data.keys():
         if name in item:
             return item+" " +data[item]
