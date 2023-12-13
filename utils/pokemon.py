@@ -102,6 +102,5 @@ def attr(name):
     for item in data.keys():
         if name in item:
             return item+" " +data[item]
-        else:
-            return "查無資料"
+
         
