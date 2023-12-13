@@ -85,8 +85,9 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
 def attr(name):
     if " " == name:
         name = name[1:]
-    path = r'/var/task/docs/attr.json'
+
     try:
+        path = r'/var/task/docs/attr.json'
         jsonFile = open(path,'r')
         data = jsonFile.read()
         data = json.JSONDecoder().decode(data)
@@ -99,8 +100,11 @@ def attr(name):
         data = {}
         for i in range(0,len(result),3):
             data[str(result[i].getText())] = result[i+2].getText()
+    # print(data)
     for item in data.keys():
         if name in item:
-            return item+" " +data[item]
+            d = data[item].replace("、","")
+            attr = Attributes_Table(d,"suppress")
+            return item + ": " + data[item] + "\n" + attr
 
         
