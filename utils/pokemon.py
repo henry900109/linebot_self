@@ -79,7 +79,10 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
     return output
     
 def attr(name):
-    jsonFile = open(r'/var/task/docs/attr.json','r')
+    if " " == name:
+        name = name[1:]
+    path = r'/var/task/docs/attr.json'
+    jsonFile = open(path,'r')
     data = jsonFile.read()
     data = json.JSONDecoder().decode(data)
     for item  in data.keys():
