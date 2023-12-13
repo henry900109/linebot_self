@@ -229,7 +229,8 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                 elif "!pokemon" in message:
                     message = message[8:]
-                    reply_text = pokemon.Attributes_Table(message)
+                    messageA,messageB  = message.split(" ")[0],message.split(" ")[1]
+                    reply_text = pokemon.Attributes_Table(messageB,messageA)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                 else:
 
