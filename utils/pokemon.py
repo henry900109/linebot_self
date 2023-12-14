@@ -147,7 +147,7 @@ def name(name):
             return (data['pokemon'][i]['speciesId'])
 
 # abs(len(Ename) -len(reply[i]['speciesId'])) < 3 and
-def Rank(rank='1500',Cname):
+def Rank(Cname,rank='1500'):
     if rank == " ":
         rank = "1500"
     Cname = Cname.replace(" ",'')
