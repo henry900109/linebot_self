@@ -148,6 +148,9 @@ def name(name):
 
 # abs(len(Ename) -len(reply[i]['speciesId'])) < 3 and
 def Rank(rank='1500',Cname):
+    if rank == " ":
+        rank = "1500"
+    Cname = Cname.replace(" ",'')
     temp = ['1500','2500','10000']
     cp = set(temp).difference([rank])
     # print(cp[0])
