@@ -1,3 +1,5 @@
+# %%time
+from functools import lru_cache
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -81,22 +83,25 @@ def Attributes_Table(InuputAttributes,mothed = "suppress"):
     output = output.replace("[","").replace("]","").replace("'","").replace("{","").replace("}","")
 
     return output
-    
+
+@lru_cache(maxsize=None)
+def allattr(url = "https://twpkinfo.com/PokemonSkill.aspx"):
+    html = requests.get(url)
+    soup=BeautifulSoup(html.text,"html.parser")
+    result = soup.find_all(class_= "name")
+    result = result[3:]
+    return result
+
 def attr(name):
     if " " == name:
         name = name[1:]
-
     try:
         path = r'/var/task/docs/attr.json'
         jsonFile = open(path,'r')
         data = jsonFile.read()
         data = json.JSONDecoder().decode(data)
     except:
-        url = "https://twpkinfo.com/PokemonSkill.aspx"
-        html = requests.get(url)
-        soup=BeautifulSoup(html.text,"html.parser")
-        result = soup.find_all(class_= "name")
-        result = result[3:]
+        result = allattr(url = "https://twpkinfo.com/PokemonSkill.aspx")
         data = {}
         for i in range(0,len(result),3):
             data[str(result[i].getText())] = result[i+2].getText()
@@ -108,3 +113,76 @@ def attr(name):
             return item + ": " + data[item] + "\n" + attr
 
         
+
+@lru_cache(maxsize=None)
+def get_chinese_name(url):
+    html = requests.get(url)
+    data = json.JSONDecoder().decode(html.text)
+    return data
+
+@lru_cache(maxsize=None)
+def cp_rank(rank):
+    # rank = ['1500','2500','10000']
+    url = 'https://pvpoketw.com/data/rankings/all/overall/rankings-'+ rank +'.json?v=1.31.4'
+    html = requests.get(url)
+    data = json.JSONDecoder().decode(html.text)
+    # print(data)
+    return data
+
+
+
+
+
+def attack(attack):
+    data = get_chinese_name(url = 'https://pvpoketw.com/data/gamemaster.min.json?v=1.31.4')
+    for i in range(len(data['moves'])):
+        if attack in data['moves'][i]['moveId']:
+            return (data['moves'][i]['name'])
+
+def name(name):
+    data = get_chinese_name(url = 'https://pvpoketw.com/data/gamemaster.min.json?v=1.31.4')
+    # print(data['pokemon'])
+    for i in range(len(data['pokemon'])):
+        if abs(len(name) -len(data['pokemon'][i]['speciesName'])) <3 and name in data['pokemon'][i]['speciesName']:
+            return (data['pokemon'][i]['speciesId'])
+
+# abs(len(Ename) -len(reply[i]['speciesId'])) < 3 and
+def Rank(rank,Cname):
+    temp = ['1500','2500','10000']
+    cp = set(temp).difference([rank])
+    # print(cp[0])
+    reply = cp_rank(rank)
+    Ename = name(Cname)
+    # print(Ename)
+    # print(reply)
+    respone = []
+    cprank = []
+    for i in range(len(reply)):
+        if  Ename in (reply[i]['speciesId']):
+            cprank.append(i+1)
+            for item in reply[i]['moveset']:
+                respone.append(attack(item))
+            break
+        elif i == len(reply):
+            cprank.append("None")
+
+    for item in (cp):
+        reply = cp_rank(item)
+        for i in range(len(reply)):
+                if  Ename in (reply[i]['speciesId']):
+                    cprank.append(i+1)
+                    break
+                elif i == len(reply)-1:
+                    cprank.append("None")
+    cp = list(cp)
+    cp.append(rank)
+    cp = ["大師聯盟" if value == '10000' else "高級聯盟" if value == '2500'else "超級聯盟" if value == '1500' else value for value in cp]
+    respone = f"{attr(Cname)}\n\n{cp[-1]} 排名: {cprank[0]} \n{cp[0]} 排名: {cprank[1]} \n{cp[1]} 排名: {cprank[2]}\n大招: {respone[0]}\n小招: {respone[1]},{respone[2]}"
+    return respone
+
+if __name__ == '__main__':
+    print(Rank("1500","大舌頭"))
+  
+# 获取缓存信息
+# cache_info = get_chinese_name.cache_info()
+# print(cache_info)
