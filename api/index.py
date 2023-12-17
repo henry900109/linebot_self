@@ -240,6 +240,10 @@ def handle_message(event):
                     else:
                         reply_text = pokemon.Rank(message)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+                elif "a"==message:
+                    reply_text = os.path.isfile(r"docs/attr.json")
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+                    
                 else:
 
                     #確認是否在遊戲模式
