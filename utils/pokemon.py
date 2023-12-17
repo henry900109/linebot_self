@@ -1,5 +1,6 @@
 # %%time
 from functools import lru_cache
+
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -96,7 +97,7 @@ def attr(name):
     if " " == name:
         name = name[1:]
     try:
-        path = r'/var/task/docs/attr.json'
+        path = r'/var/task/data/attr.json'
         jsonFile = open(path,'r')
         data = jsonFile.read()
         data = json.JSONDecoder().decode(data)
@@ -134,23 +135,28 @@ def cp_rank(rank):
 
 
 def attack(attack):
-    data = get_chinese_name(url = 'https://pvpoketw.com/data/gamemaster.min.json?v=1.31.4')
+    try:
+        with open(r'/var/task/data/pokename.json','r') as file:
+            data = json.load(file)
+    except:
+        data = get_chinese_name(url = 'https://pvpoketw.com/data/gamemaster.min.json?v=1.31.4')
     for i in range(len(data['moves'])):
         if attack in data['moves'][i]['moveId']:
             return (data['moves'][i]['name'])
 
 def name(name):
-    data = get_chinese_name(url = 'https://pvpoketw.com/data/gamemaster.min.json?v=1.31.4')
+    try:
+        with open(r'/var/task/data/pokename.json','r') as file:
+            data = json.load(file)
+    except:
+        data = get_chinese_name(url = 'https://pvpoketw.com/data/gamemaster.min.json?v=1.31.4')
     # print(data['pokemon'])
     for i in range(len(data['pokemon'])):
         if abs(len(name) -len(data['pokemon'][i]['speciesName'])) <3 and name in data['pokemon'][i]['speciesName']:
             return (data['pokemon'][i]['speciesId'])
 
 # abs(len(Ename) -len(reply[i]['speciesId'])) < 3 and
-def Rank(Cname,rank='1500'):
-    if rank == " ":
-        rank = "1500"
-    Cname = Cname.replace(" ",'')
+def Rank(rank,Cname):
     temp = ['1500','2500','10000']
     cp = set(temp).difference([rank])
     # print(cp[0])
@@ -186,6 +192,3 @@ def Rank(Cname,rank='1500'):
 if __name__ == '__main__':
     print(Rank("1500","大舌頭"))
   
-# 获取缓存信息
-# cache_info = get_chinese_name.cache_info()
-# print(cache_info)
