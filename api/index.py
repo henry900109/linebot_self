@@ -242,7 +242,8 @@ def handle_message(event):
                         reply_text = pokemon.Rank(message)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                 elif "aaaa" == message:
-                    e = os.path.dirname(os.path.abspath(__file__))
+                    path = r'/var/task/docs/optimal-signer-334903-d972d0dbeb67.json'
+                    e = os.path.exists(path)
                     reply_text = e
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                     
