@@ -243,8 +243,8 @@ def handle_message(event):
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                 elif "a"==message:
                     try:
-                        f = open(join('docs', 'attr.josn'),'r')
-                        f.close()
+                        with open(join('docs', 'attr.josn') 'r') as file:
+                            file_content = file.read()
                         reply_text = "true"
                     except Exception as e:
                         reply_text = e
