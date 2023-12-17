@@ -242,7 +242,12 @@ def handle_message(event):
                         reply_text = pokemon.Rank(message)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                 elif "a"==message:
-                    reply_text = os.path.isfile((join('docs', 'attr.josn'))
+                    try:
+                        f = open(join('docs', 'attr.josn'),'r')
+                        f.close()
+                        reply_text = "true"
+                    except Exception as e:
+                        reply_text = e
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                     
                 else:
