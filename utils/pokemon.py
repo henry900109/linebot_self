@@ -156,7 +156,7 @@ def name(name):
             return (data['pokemon'][i]['speciesId'])
 
 # abs(len(Ename) -len(reply[i]['speciesId'])) < 3 and
-def Rank(Cname,rank = "1500"):
+def Rank(Cname,rank = "2500"):
     temp = ['1500','2500','10000']
     cp = set(temp).difference([rank])
     # print(cp[0])
@@ -172,7 +172,7 @@ def Rank(Cname,rank = "1500"):
             for item in reply[i]['moveset']:
                 respone.append(attack(item))
             break
-        elif i == len(reply):
+        elif i == len(reply)-1:
             cprank.append("None")
 
     for item in (cp):
@@ -184,11 +184,15 @@ def Rank(Cname,rank = "1500"):
                 elif i == len(reply)-1:
                     cprank.append("None")
     cp = list(cp)
-    cp.append(rank)
+    cp.append(rank)    
+    if respone == []:
+        print(respone)
+        respone.extend(["None","None","None"])
+    
     cp = ["大師聯盟" if value == '10000' else "高級聯盟" if value == '2500'else "超級聯盟" if value == '1500' else value for value in cp]
     respone = f"{attr(Cname)}\n\n{cp[-1]} 排名: {cprank[0]} \n{cp[0]} 排名: {cprank[1]} \n{cp[1]} 排名: {cprank[2]}\n大招: {respone[0]}\n小招: {respone[1]},{respone[2]}"
     return respone
 
 if __name__ == '__main__':
-    print(Rank("大舌頭","1500"))
+    print(Rank("哲爾尼亞斯","10000"))
   
