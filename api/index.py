@@ -241,9 +241,9 @@ def handle_message(event):
                     else:
                         reply_text = pokemon.Rank(message)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
-                elif "a"==message:
+                elif "aaaa" == message:
                     try:
-                        with open(join('docs', 'attr.josn'),'r') as file:
+                        with open(r'/var/task/docs/attr.json','r') as file:
                             file_content = file.read()
                         reply_text = "true"
                     except Exception as e:
