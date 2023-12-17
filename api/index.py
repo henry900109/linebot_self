@@ -19,6 +19,7 @@ import random
 import requests
 import os
 from os.path import join
+from glob import glob
 # import time
 
 
@@ -242,9 +243,10 @@ def handle_message(event):
                         reply_text = pokemon.Rank(message)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                 elif "aaaa" == message:
-                    path = r'/var/task/docs'
-                    e = os.path.exists(path)
-                    reply_text = e
+                    path = r'/var/task/docs/*'
+                    # e = os.path.exists(path)
+                    a = glob(path)
+                    reply_text = str(a)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                     
                 else:
