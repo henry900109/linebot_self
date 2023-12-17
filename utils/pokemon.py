@@ -156,7 +156,7 @@ def name(name):
             return (data['pokemon'][i]['speciesId'])
 
 # abs(len(Ename) -len(reply[i]['speciesId'])) < 3 and
-def Rank(Cname,rank = 1500):
+def Rank(Cname,rank = "1500"):
     temp = ['1500','2500','10000']
     cp = set(temp).difference([rank])
     # print(cp[0])
