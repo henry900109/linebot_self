@@ -18,6 +18,7 @@ import utils.pokemon as pokemon
 import random
 import requests
 import os
+from os.path import join
 # import time
 
 
@@ -241,7 +242,7 @@ def handle_message(event):
                         reply_text = pokemon.Rank(message)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                 elif "a"==message:
-                    reply_text = os.path.isfile(r"docs/attr.json")
+                    reply_text = os.path.isfile((join('docs', 'attr.josn'))
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
                     
                 else:
