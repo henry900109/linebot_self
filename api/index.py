@@ -57,6 +57,7 @@ def process_form():
     data = eval(data)
     cp = data['cp']
     name = data['name']
+    cp = str(cp)
     r = pokemon.Rank(name,cp)
     return f'{r}'
 
