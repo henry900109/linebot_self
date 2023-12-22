@@ -152,7 +152,7 @@ def name(name):
         data = get_chinese_name(url = 'https://pvpoketw.com/data/gamemaster.min.json?v=1.31.4')
     # print(data['pokemon'])
     for i in range(len(data['pokemon'])):
-        if abs(len(name) -len(data['pokemon'][i]['speciesName'])) <3 and name in data['pokemon'][i]['speciesName']:
+        if abs(len(name) -len(data['pokemon'][i]['speciesName'])) < 4 and name in data['pokemon'][i]['speciesName']:
             return (data['pokemon'][i]['speciesId'])
 
 # abs(len(Ename) -len(reply[i]['speciesId'])) < 3 and
@@ -192,7 +192,7 @@ def Rank(Cname,rank = "2500"):
     cp = ["大師聯盟" if value == '10000' else "高級聯盟" if value == '2500'else "超級聯盟" if value == '1500' else value for value in cp]
     respone = f"{attr(Cname)}\n\n{cp[0]} 排名: {cprank[1]} \n{cp[-1]} 排名: {cprank[0]} \n{cp[1]} 排名: {cprank[2]}\n大招: {respone[0]}\n小招: {respone[1]},{respone[2]}"
     # temp = ["大師聯盟" if value == '10000' else "高級聯盟" if value == '2500'else "超級聯盟" if value == '1500' else value for value in temp]
-    # respone = f"{attr(Cname)}\n\n{temp[-1]} 排名: {cprank[0]} \n{temp[1]} 排名: {cprank[1]} \n{temp[2]} 排名: {cprank[2]}\n大招: {respone[0]}\n小招: {respone[1]},{respone[2]}"
+    # respone = f"{attr(Cname)}\n\n{temp[-1]} 排名: {cprank[0]} \n{temp[1]} 排名: {cprank[1]} \n{temp[2]} 排名: {cprank[2]}\n小招: {respone[0]}\n大招: {respone[1]},{respone[2]}"
     return respone
 
 if __name__ == '__main__':
