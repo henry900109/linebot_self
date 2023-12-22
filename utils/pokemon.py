@@ -193,6 +193,7 @@ def Rank(Cname,rank = "2500"):
     respone = f"{attr(Cname)}\n\n{cp[0]} 排名: {cprank[1]} \n{cp[-1]} 排名: {cprank[0]} \n{cp[1]} 排名: {cprank[2]}\n大招: {respone[0]}\n小招: {respone[1]},{respone[2]}"
     # temp = ["大師聯盟" if value == '10000' else "高級聯盟" if value == '2500'else "超級聯盟" if value == '1500' else value for value in temp]
     # respone = f"{attr(Cname)}\n\n{temp[-1]} 排名: {cprank[0]} \n{temp[1]} 排名: {cprank[1]} \n{temp[2]} 排名: {cprank[2]}\n小招: {respone[0]}\n大招: {respone[1]},{respone[2]}"
+    response = respone if respone != "" else "查無資料"
     return respone
 
 if __name__ == '__main__':
