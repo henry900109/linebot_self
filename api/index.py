@@ -53,6 +53,7 @@ def home():
 @app.route('/pk', methods=['POST'])
 def process_form():
     data = request.get_data()
+    return f'{data}'
     data = eval(data)
     cp = data['cp']
     name = data['name']
