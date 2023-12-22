@@ -50,6 +50,14 @@ gpttemplate = ""
 @app.route('/')
 def home():
     return 'hello'
+@app.route('/pk', methods=['POST'])
+def process_form():
+    data = request.get_data()
+    data = eval(data)
+    cp = data['cp']
+    name = data['name']
+    r = pokemon.Rank(cp,name)
+    return f'{r}'
 
 #連接webhook
 @app.route("/webhook", methods=['POST'])
