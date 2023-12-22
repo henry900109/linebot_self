@@ -57,7 +57,7 @@ def process_form():
     data = eval(data)
     cp = data['cp']
     name = data['name']
-    r = pokemon.Rank(cp,name)
+    r = pokemon.Rank(name,cp)
     return f'{r}'
 
 #連接webhook
