@@ -54,11 +54,11 @@ def home():
 def process_form():
     data = request.get_data()
     return f'{data}'
-    data = eval(data)
-    cp = data['cp']
-    name = data['name']
-    r = pokemon.Rank(cp,name)
-    return f'{r}'
+    # data = eval(data)
+    # cp = data['cp']
+    # name = data['name']
+    # r = pokemon.Rank(cp,name)
+    # return f'{r}'
 
 #連接webhook
 @app.route("/webhook", methods=['POST'])
