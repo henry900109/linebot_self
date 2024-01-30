@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort,send_file,session
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage,PostbackEvent
@@ -13,6 +13,7 @@ import root.polite as rp
 import utils.dollar as ud
 import Game.Guessnumber as Guessnumber
 import utils.pokemon as pokemon
+import utils.money as um
 # import test.test as tt
 # import test.sheet as ts
 import random
@@ -21,6 +22,7 @@ import os
 from os.path import join
 from glob import glob
 import json
+from io import BytesIO
 # import time
 
 
@@ -60,6 +62,10 @@ def process_form():
     cp = str(cp)
     r = pokemon.Rank(name,cp)
     return f'{r}'
+@app.route('/photo')
+def display_photo():
+    session['plot_image'] = um.draw()
+    return send_file(BytesIO(session['plot_image']), mimetype='image/png')
 
 #連接webhook
 @app.route("/webhook", methods=['POST'])
@@ -253,6 +259,12 @@ def handle_message(event):
                     else:
                         reply_text = pokemon.Rank(message)
                     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
+
+                elif "!money" in message:
+                    img_url = "https://linebot-self.vercel.app/photo"
+                    img_message = ImageSendMessage(original_content_url=img_url, preview_image_url=img_url)
+                    line_bot_api.reply_message(event.reply_token,img_message)
+
                 elif "aaaa" == message:
                     with open(r'/var/task/data/attr.json','r') as file:
                         file_content = file.read()
