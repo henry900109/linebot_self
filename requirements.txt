@@ -10,4 +10,4 @@ Werkzeug==2.3.7
 beautifulsoup4==4.12.2
 js2py==0.74
 glob2==0.7
-seaborn 0.13.2
+seaborn==0.13.2
