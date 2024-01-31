@@ -64,8 +64,8 @@ def process_form():
     return f'{r}'
 @app.route('/photo')
 def display_photo():
-    session['plot_image'] = um.draw()
-    return send_file(BytesIO(session['plot_image']), mimetype='image/png')
+    # session['plot_image'] = um.draw()
+    return send_file(BytesIO(um.draw()), mimetype='image/png')
 
 #連接webhook
 @app.route("/webhook", methods=['POST'])
