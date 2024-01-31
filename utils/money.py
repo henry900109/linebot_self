@@ -1,9 +1,7 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib
 from io import BytesIO
 def draw():
-    matplotlib.rc('font', family='Microsoft JhengHei')
+   
 
 
     try:
