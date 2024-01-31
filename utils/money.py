@@ -26,30 +26,28 @@ def draw():
 
         # # 將多個DataFrame合併成一個
         result_df = pd.concat([df, df2,df3], ignore_index=True)
-        df['日期'] = pd.to_datetime(df['日期'], format='%m/%d')
+        # df['日期'] = pd.to_datetime(df['日期'], format='%m/%d')
         
 
-        # 繪製折線圖
-        plt.figure(figsize=(10, 6))
-        plt.plot(result_df['日期'], result_df['淨值'],label='淨值' ,  color='r')
-        plt.title('統一奔騰')
-        plt.xlabel('Data')
-        plt.ylabel('Price')
-        plt.xticks(result_df['日期'][::2], rotation=45)
-        plt.yticks(result_df['淨值'][::2])
-        plt.gca().invert_xaxis()  # 將 x 軸數據反轉
-        plt.gca().invert_yaxis()  # 將 y 軸數據反轉
-        plt.grid(True)
-        plt.tight_layout()
+        result_df = result_df.dropna()
+    
+        result_df['淨值'] = pd.to_numeric(result_df['淨值'], errors='coerce').astype(float)
 
-        plt.legend()
-         # 將圖片轉換為二進制數據
+        result_df = result_df.iloc[::-1, ::-1]
+
+    
+        ax = result_df.plot(x='日期', y='淨值', kind='line', color='r', figsize=(10, 6),grid=True,rot = 45 ,title='統一奔騰')
+
+        ax = df.plot()
+        fig = ax.get_figure()
+
+
+
+        # 將圖片轉換為二進制數據
         img_buffer = BytesIO()
-        plt.savefig(img_buffer, format='png')
+        fig.savefig(img_buffer, format='png')
         img_buffer.seek(0)
-        
-        # 清除Matplotlib繪圖狀態，以便可以進行下一次繪圖
-        plt.clf()
+    
     
         return img_buffer.getvalue()
     except Exception as e:
