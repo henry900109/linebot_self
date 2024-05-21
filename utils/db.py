@@ -13,5 +13,5 @@ def connect_DB(profile):
     mydb = client["linebot"]
     collection  = mydb["custom"]
     if not collection.find({'name':name}):
-        collection.insert_one([{'name':name,"usrID":id}])
+        collection.insert_one({'name':name,"usrID":id})
     return "ok"
