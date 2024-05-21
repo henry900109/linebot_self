@@ -14,6 +14,7 @@ import utils.dollar as ud
 import Game.Guessnumber as Guessnumber
 import utils.pokemon as pokemon
 import utils.money as um
+from utils import *
 # import test.test as tt
 # import test.sheet as ts
 import random
@@ -115,7 +116,8 @@ def handle_message(event):
             reply_text = rp.hello()
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=reply_text))
         elif message == "!send":
-            line_bot_api.push_message('Uc3e869190fa11d67f2a1ff4b65070e4f', TextSendMessage(text='Hello World!!!'))
+            # line_bot_api.push_message('Uc3e869190fa11d67f2a1ff4b65070e4f', TextSendMessage(text='Hello World!!!'))
+            connect_DB(event.source)
         else:
             
             # 如果使用者輸入 "!quite"，則設定 quiet_mode 為 True，否則回傳相同訊息
