@@ -14,3 +14,4 @@ def connect_DB(profile):
     collection  = mydb["custom"]
     if not collection.find({'name':name}):
         collection.insert_one([{'name':name,"usrID":id}])
+    return "ok"
