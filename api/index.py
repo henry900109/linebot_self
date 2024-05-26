@@ -63,6 +63,14 @@ def process_form():
     cp = str(cp)
     r = pokemon.Rank(name,cp)
     return f'{r}'
+@app.route('/cube', methods=['POST'])
+def cube_form():
+    data = request.get_data()
+    # return f'{data}'
+    data = eval(data)
+    name = data['name']
+    name = find_key_for_value(name)
+    return f'{name}'
 @app.route('/photo')
 def display_photo():
     # session['plot_image'] = um.draw()
