@@ -32,10 +32,10 @@ def find_key_for_value(target_value = "7-11" ):
     target_value = target_value.upper()
     for key, value in cube.items():
         if target_value in value:
-            return target_value + " ¦b " + key
+            return target_value + " is " + key
         for item in value:
             if target_value in item:
-                return item + " ¦b " + key 
+                return item + " is " + key 
     return None
 if __name__ == '__main__':
     find_key_for_value()
