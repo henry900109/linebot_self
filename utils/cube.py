@@ -1,6 +1,6 @@
 import requests as rq
 from bs4 import BeautifulSoup
-def cube():
+def cube_dict():
     # Fetch the webpage content
     url = "https://www.cathaybk.com.tw/cathaybk/personal/product/credit-card/cards/cube-list/"
     html = rq.get(url).text
@@ -28,7 +28,7 @@ def cube():
             cube[tmp].append(element.get_text(strip=True).upper())
     return cube
 def find_key_for_value(target_value = "7-11" ):
-    cube = cube()
+    cube = cube_dict()
     target_value = target_value.upper()
     for key, value in cube.items():
         if target_value in value:
