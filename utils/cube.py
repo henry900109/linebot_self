@@ -8,14 +8,6 @@ def cube_dict():
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html, "html.parser")
     cube = {}
-    # Function to check if an element has the specified attribute or class
-    def match_element(element):
-        if element.has_attr('data-ga-lv3-title'):
-            return True
-        elif 'cubre-a-blockTitle' in element.get('class', []):
-            if "3%" in element.get_text(strip=True) and len(element.get_text(strip=True)) <= 5:
-                return True
-        return False
 
     # Traverse the entire HTML document and print matching elements
     tmp = ""
@@ -36,7 +28,7 @@ def find_key_for_value(target_value = "7-11" ):
         for item in value:
             if target_value in item:
                 return item + " is " + key 
-    return None
+    return "NO"
 if __name__ == '__main__':
     find_key_for_value()
     
