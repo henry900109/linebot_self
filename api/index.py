@@ -69,6 +69,7 @@ def cube_form():
     # return f'{data}'
     data = eval(data)
     name = data['name']
+    name = name.replace(" ","")
     name = find_key_for_value(name).encode('big5').decode('big5')
     return name
 @app.route('/photo')
