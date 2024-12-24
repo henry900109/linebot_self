@@ -217,7 +217,7 @@ def handle_message(event):
                 
                 elif message == "!pwd":
                     profile = line_bot_api.get_profile(userid)
-                    reply_text = pwd.generate_monthly_password(profile)
+                    reply_text = utils.pwd.generate_monthly_password(profile)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                 
                 # 玩遊戲
