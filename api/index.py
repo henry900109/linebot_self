@@ -215,6 +215,10 @@ def handle_message(event):
                     reply_text = uf.profile(profile)
                     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                 
+                elif message == "!pwd":
+                    profile = line_bot_api.get_profile(userid)
+                    reply_text = pwd.generate_monthly_password(profile)
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_text))
                 
                 # 玩遊戲
                 elif message == "!play":
