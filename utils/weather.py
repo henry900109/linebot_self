@@ -21,8 +21,6 @@ def weather(WEATHER_API_KEY,user):
     response = requests.get(url)
    
     data = response.json()
-    with open('utils/test.json', 'w+', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
     extra = data['records']['Locations'][0]['Location'][0]['WeatherElement']
     relpy_text = user[2:] +"\n"
     for j in range(len(extra[0]['Time'])):
