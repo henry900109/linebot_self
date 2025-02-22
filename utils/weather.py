@@ -1,105 +1,80 @@
 import requests
 import json
 from datetime import datetime,timedelta
-import time
-import js2py
-import pandas as pd
-
-def get_weather(WEATHER_API_KEY,locationname):
-    # 請在下方填入您的 API Key
-    url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-071"
-    params = {
-        "Authorization": WEATHER_API_KEY,
-        "locationName": locationname,
-        "elementName": "Wx,AT,T"
-    }
-
-    response = requests.get(url, params=params)
-    if response.status_code == 200:
-        data = json.loads(response.text)
-        location = data["records"]['locations'][0]['location'][0]['weatherElement'][0]
-        t = '時間:'+location["time"][0]["startTime"]
-        l = '\n地點:'+data["records"]["locations"][0]["location"][0]["locationName"]
-        te = "\n天氣現象:"+data['records']['locations'][0]['location'][0]['weatherElement'][1]['time'][0]['elementValue'][0]['value']
-        tp = '\n溫度:'+ location["time"][0]["elementValue"][0]["value"]+'度'
-        reply_text = t+l+te+tp
-        return reply_text
-    else:
-        return "天氣查詢失敗！"
-    
 
 def weather(WEATHER_API_KEY,user):
 
     now = datetime.now()
 
     date_code = {'今天':now,'明天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=1),'後天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=2)}
-   
+     
     weather_apikey = WEATHER_API_KEY
     
     dataid = (user[2:5]).replace("台","臺",True) if "台" in (user[2:5]) else (user[2:5]) # [user[2:5]] ex:新北市
-
     dataid_code = {'宜蘭縣':'001','桃園市':'005','新竹縣':'009','苗栗縣':'013','彰化縣':'017','南投縣':'021','雲林縣':'025','嘉義縣':'029',
                 '屏東縣':'033','臺東縣':'037','花蓮縣':'041','澎湖縣':'045','基隆市':'049','新竹市':'053','嘉義市':'057','臺北市':'061',
                 '高雄市':'065','新北市':'069','臺中市':'073','臺南市':'077','連江縣':'081','金門縣':'085'}
     
-    element_name = "T,Wx,PoP6h,AT"
+    element_name = "溫度,天氣現象,3小時降雨機率,體感溫度"
 
-    url = f'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&locationName={user[5:-2]}&elementName={element_name}'
-   
+    url = f'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&LocationName={user[5:-2]}&ElementName={element_name}'
     response = requests.get(url)
    
     data = response.json()
-        
-    extra = data['records']['locations'][0]['location'][0]['weatherElement']
-
+    with open('utils/test.json', 'w+', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+    extra = data['records']['Locations'][0]['Location'][0]['WeatherElement']
     relpy_text = user[2:] +"\n"
+    for j in range(len(extra[0]['Time'])):
+        # 解析時間字串
+        time_str = extra[0]['Time'][j]['DataTime']
+        time_str = time_str.split('+')[0].replace('T', ' ')  # 去掉時區資訊並調整格式
+        moment = datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
 
-    for j in range(len(extra[0]['time'])):
+        # 確保匹配的時間資料
+        if date_code[user[:2]] <= moment and str(date_code[user[:2]].date()) in str(moment):
 
-        # 讀取資料第一筆時間
-        moment = datetime.strptime(extra[0]['time'][j]['startTime'], '%Y-%m-%d %H:%M:%S')
-        
-        # 判斷所需的日期天氣資料
-        
-        if date_code[user[:2]] <= moment and (str(date_code[user[:2]].date()) in str(moment)):
+            # 記錄時間
+            relpy_text += moment.strftime('%m/%d %H點') + '\n'
 
-            relpy_text+= moment.strftime('%m/%d %H點')
-            relpy_text+='\n'
+            # 初始化天氣資訊變數
+            weather = ""       # 天氣現象 (如 陰、多雲)
+            temperature = ""   # 溫度
+            apparent_temp = "" # 體感溫度
+            rain_prob = "降雨機率 : 無數據"  # 預設值，避免沒有降雨機率時出錯
 
-            for i in range(len(extra)-1):
-
-                description = extra[i]['description']
-
+            for i in range(len(extra)):
+                ElementName = extra[i]['ElementName']
+                
                 try:
+                    wx = extra[i]['Time'][j]['ElementValue'][0]  # 直接取 [0]，避免後續錯誤
+                except (IndexError, KeyError):
+                    wx = {}
 
-                    wx = extra[i]['time'][j]['elementValue'][0]['value']
+                if ElementName == '溫度':
+                    temperature = wx.get('Temperature', '未知') + " 度"
+                elif ElementName == '體感溫度':
+                    apparent_temp = " (體：" + wx.get('ApparentTemperature', '未知') + " 度 )"
 
-                except IndexError:
+            # 處理「天氣現象」與「降雨機率」
+            for i in range(len(extra)):
+                ElementName = extra[i]['ElementName']
 
-                    wx = '尚未預測'
-      
-                if description == '天氣現象':
+                if ElementName in ['天氣現象', '3小時降雨機率']:
+                    for time_range in extra[i]['Time']:  # 遍歷所有 StartTime-EndTime 區間
+                        start_time = datetime.strptime(time_range['StartTime'].split('+')[0].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+                        end_time = datetime.strptime(time_range['EndTime'].split('+')[0].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
 
-                    relpy_text += wx + ', '
+                        # 檢查當前時間是否落在此範圍內
+                        if start_time <= moment < end_time:
+                            if ElementName == '天氣現象':
+                                weather = time_range['ElementValue'][0].get('Weather', '未知')
+                            elif ElementName == '3小時降雨機率':
+                                rain_prob = "降雨機率 : " + time_range['ElementValue'][0].get('ProbabilityOfPrecipitation', '0') + " %"
+                            break  # 找到符合條件的就跳出迴圈
 
-                elif description == '溫度':
-
-                    relpy_text += wx + ' 度'
-                    relpy_text += temp
-
-                elif description == '體感溫度':
-                    
-                    temp = ' (體：'+wx + ' 度 )\n'
-
-            try:
-
-                relpy_text+=extra[-1]['description'][3:]+" : "+extra[-1]['time'][j//2]['elementValue'][0]['value']+" %"
-                relpy_text+='\n'
-                relpy_text+='\n'
-
-            except IndexError:
-
-                relpy_text+='N\A'
+            # 按照指定順序組合輸出
+            relpy_text += f"{weather}, {temperature}{apparent_temp}\n{rain_prob}\n\n"
 
     if relpy_text == user[2:] +"\n":
 
@@ -110,59 +85,3 @@ def weather(WEATHER_API_KEY,user):
             
     return relpy_text
     
-def now_weather(name):
-  timestr = time.strftime("%Y%m%d%H")
-  url = 'https://www.cwb.gov.tw/Data/js/GT/TableData_GT_T_63.js?T='+timestr+'-4&_=1657432140292'
-  headers = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.47"}
-  download = requests.get(url,headers = headers)
-  download = download.text
-  cityID = [6301200,6301100,6300600,6300400,6300100,6301000,6300700,6300500,6300300,6300200,6300900,6300800]
-  cityname = {"萬華區":6,"中正區": 7,"南港區" : 10,"文山區": 11}
-  aid = cityname[name]
-  text = js2py.eval_js(download)
-  C_AT=[]
-  C_T=[]
-  RH=[]
-  Rain=[]
-  Sunrise=[]
-  Sunset=[]
-  for item in cityID:
-    C_AT.append(text[item]["C_AT"])
-    C_T.append(text[item]["C_T"])
-    Rain.append(text[item]["Rain"])
-    RH.append(text[item]["RH"])
-    Sunrise.append(text[item]["Sunrise"])
-    Sunset.append(text[item]["Sunset"])
-    
-
-  output=[cityID,C_AT,C_T,RH,Rain,Sunrise,Sunset]
-  df=pd.DataFrame(output)
-  dt=df.T
-  dt.columns=['Cityid','C_AT','C_T','RH','Rain','Sunrise','Sunset']
-  timestr = time.strftime("%Y%m%d")
-  return timestr + '\n'+name+'降雨機率為 ' + dt['Rain'][aid]  +"%\n最高溫: "+ dt['C_AT'][aid] + " 度\n最低溫: " + dt['C_T'][aid] +'度'
-# 6300700 萬華 6
-#  63000500 中正 7
-#6300900 南港 10
-#6300800 文山 11
-# print(now_weather())
-
-
-
-def get_country_weather(WEATHER_API_KEY,locationname):
-    WEATHER_API_URL = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001"
-    locationname = locationname.replace("台","臺",True) if "台" in locationname else locationname
-    country = ["宜蘭縣", "花蓮縣", "臺東縣", "澎湖縣", "金門縣", "連江縣", "臺北市", "新北市", "桃園市", "臺中市", "臺南市", "高雄市", "基隆市", "新竹縣", "新竹市", "苗栗縣", "彰化縣", "南投縣", "雲林縣", "嘉義縣", "嘉義市", "屏東縣"]
-    LOCATION_NAME = locationname[1:4]
-    res = requests.get(f"{WEATHER_API_URL}?Authorization={WEATHER_API_KEY}&locationName={LOCATION_NAME}")
-    if res.status_code == 200:
-        data = res.json()["records"]["location"][0]["weatherElement"]
-        reply_text = f"{LOCATION_NAME}天氣狀況：\n\n"
-        for i in range(3):
-            time = data[0]["time"][i]["startTime"][5:10].replace("-", "/")
-            weather = data[0]["time"][i]["parameter"]["parameterName"]
-            temp = data[1]["time"][i]["parameter"]["parameterName"]
-            reply_text += f"{time}:{weather}，氣溫 {temp}℃\n"
-        return reply_text
-    else:
-        return "天氣查詢失敗！"
