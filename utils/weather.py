@@ -8,6 +8,7 @@ def weather(WEATHER_API_KEY,user):
 
     date_code = {'今天':now,'明天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=1),'後天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=2)}
      
+     
     weather_apikey = WEATHER_API_KEY
     
     dataid = (user[2:5]).replace("台","臺",True) if "台" in (user[2:5]) else (user[2:5]) # [user[2:5]] ex:新北市
@@ -15,6 +16,9 @@ def weather(WEATHER_API_KEY,user):
                 '屏東縣':'033','臺東縣':'037','花蓮縣':'041','澎湖縣':'045','基隆市':'049','新竹市':'053','嘉義市':'057','臺北市':'061',
                 '高雄市':'065','新北市':'069','臺中市':'073','臺南市':'077','連江縣':'081','金門縣':'085'}
     
+    element_name = "溫度,天氣現象,3小時降雨機率,體感溫度"
+
+    url = f'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&LocationName={user[5:-2]}&ElementName={element_name}'
     element_name = "溫度,天氣現象,3小時降雨機率,體感溫度"
 
     url = f'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&LocationName={user[5:-2]}&ElementName={element_name}'
