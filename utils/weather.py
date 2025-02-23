@@ -5,7 +5,6 @@ from datetime import datetime,timedelta
 def weather(WEATHER_API_KEY,user):
 
     now = datetime.now()
-
     date_code = {'今天':now,'明天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=1),'後天':now.replace(hour=0, minute=0, second=0, microsecond = 0) + timedelta(days=2)}
      
      
@@ -15,15 +14,12 @@ def weather(WEATHER_API_KEY,user):
     dataid_code = {'宜蘭縣':'001','桃園市':'005','新竹縣':'009','苗栗縣':'013','彰化縣':'017','南投縣':'021','雲林縣':'025','嘉義縣':'029',
                 '屏東縣':'033','臺東縣':'037','花蓮縣':'041','澎湖縣':'045','基隆市':'049','新竹市':'053','嘉義市':'057','臺北市':'061',
                 '高雄市':'065','新北市':'069','臺中市':'073','臺南市':'077','連江縣':'081','金門縣':'085'}
-    
-    element_name = "溫度,天氣現象,3小時降雨機率,體感溫度"
 
-    url = f'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&LocationName={user[5:-2]}&ElementName={element_name}'
     element_name = "溫度,天氣現象,3小時降雨機率,體感溫度"
 
     url = f'https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-D0047-{dataid_code[dataid]}?Authorization={weather_apikey}&LocationName={user[5:-2]}&ElementName={element_name}'
     response = requests.get(url)
-   
+    
     data = response.json()
 
     extra = data['records']['Locations'][0]['Location'][0]['WeatherElement']
@@ -84,4 +80,3 @@ def weather(WEATHER_API_KEY,user):
             
     return relpy_text
     
-
