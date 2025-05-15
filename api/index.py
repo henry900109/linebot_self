@@ -33,7 +33,7 @@ line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 line_handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 WEATHER_API_KEY = os.getenv("weather_api")
 Openai_token = os.getenv("Open_api")
-
+gemini_token = os.getenv("gemini_api")
 
 
 app = Flask(__name__)
@@ -163,7 +163,7 @@ def handle_message(event):
                         gpttemplate = template + message
 
                     try:
-                        reply_text = ug.gpt3_5(Openai_token,gpttemplate)
+                        reply_text = ug.gemini(gemini_token,gpttemplate)
                         if reply_text != "Error : 無法取得回覆，請稍後再試！":
                             gpttemplate = "\nAI:" + reply_text + "\nHuman:"
                     except:
